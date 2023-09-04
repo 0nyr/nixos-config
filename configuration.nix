@@ -97,6 +97,7 @@
         i3lock-color
         brightnessctl
         networkmanagerapplet
+        feh
      ];
     };
     displayManager.gdm.enable = true;
