@@ -166,7 +166,6 @@
     neofetch
     openssl
     direnv
-    gcc
     usbutils
     appimage-run
     gparted
