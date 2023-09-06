@@ -162,7 +162,7 @@
     wget
     gedit
     git
-    rustup
+    python3
     htop
     neofetch
     openssl

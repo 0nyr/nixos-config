@@ -7,8 +7,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     
     # Minecraft grub2 theme
-    #minegrub-theme.url = "github:Lxtharia/minegrub-theme"; # official repo
-    minegrub-theme.url = "github:ocfox/minegrub-theme"; 
+    minegrub-theme.url = "github:Lxtharia/minegrub-theme"; # official repo
+    #minegrub-theme.url = "github:ocfox/minegrub-theme"; # alternative older fork
   };
 
   outputs = {nixpkgs, ...} @ inputs: {
