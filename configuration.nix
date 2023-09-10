@@ -4,15 +4,21 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  # efi mount point :
+  EFI_MOUNTPOINT = "/boot/efi";
+  #user name
+  USER_NAME = "onyr";
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
-  #boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
+  # ------------------------------------------
+  # Bootloader
+  # ------------------------------------------
 
   # Use GRUB as bootloader
   boot.loader = {
@@ -20,7 +26,7 @@
     grub = {
       minegrub-theme = {
         enable = true;
-        splash = "100% Flakes!";
+        splash = "Per Aspera Ad Astra";
       };
       enable = true;
       efiSupport = true;
@@ -36,26 +42,30 @@
         }
       '';
     };
+    efi = {
+      efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
+      canTouchEfiVariables = true;
+    };
   };
-  
-  #boot.loader.grub.enable = true;
-  #boot.loader.grub.efiSupport = true;
-  #boot.loader.grub.efiInstallAsRemovable = false; # set to true if needed
-  boot.loader.efi.efiSysMountPoint = "/efi"; # adjust if your mount point differs
-  boot.loader.efi.canTouchEfiVariables = true;
-  #boot.loader.grub.device = "nodev";
-  #boot.loader.grub.useOSProber = true;
+
+  # ------------------------------------------
+  # File system
+  # ------------------------------------------
   
   # File system configuration
-  fileSystems."/home" = {
+  fileSystems."/home" = { # mount home 
     device = "/dev/nvme0n1p8"; # Adjust if the device path is different
     fsType = "ext4";           
   };
 
-  fileSystems."/efi" = {
+  fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
     device = "/dev/nvme0n1p1";
     fsType = "vfat";
   };
+
+  # ------------------------------------------
+  # Divers setup
+  # ------------------------------------------
   
   # enable experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -67,6 +77,12 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
+
+  # bluetooth
+  hardware.bluetooth.enable = true;
+
+  # opengl
+  hardware.opengl.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -80,26 +96,51 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
+  # ------------------------------------------
+  # GUI
+  # ------------------------------------------
+
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
+
+    # Configure keymap in X11
+    layout = "fr";
+    xkbOptions = "eurosign:e,caps:escape";
+
+    displayManager.defaultSession = "myI3";
+    displayManager.session = [
+      {
+        manage = "desktop";
+        name = "myI3";
+        # start i3 in debug mode
+        #start = ''exec i3 --shmlog-size=26214400'';
+        # start i3 in normal mode
+        start = ''exec i3'';
+      }
+    ];
+
     windowManager.i3 = {
       enable = true;
+
       extraPackages = with pkgs; [
         # i3 specific packages
         i3status
         dmenu
-        (polybar.override { pulseSupport = true; })
+        (polybar.override { pulseSupport = true; i3Support = true; })
         bc
-        kitty
-        shutter
-        rofi
+        kitty # terminal
+        shutter # screenshot
+        rofi # application launcher menu
+        xss-lock # screen saver
         i3lock-color
         brightnessctl
         networkmanagerapplet
-        feh
+        feh # wallpaper
+        blueberry # bluetooth manager
      ];
     };
+
     displayManager.gdm.enable = true;
     #videoDrivers = [ "nvidia" ];
     #displayManager.defaultSession = "none+i3";
@@ -117,10 +158,6 @@
     ]; })
   ];  
 
-  # Configure keymap in X11
-  services.xserver.layout = "fr";
-  services.xserver.xkbOptions = "eurosign:e,caps:escape";
-
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
@@ -133,17 +170,19 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   nixpkgs.config.allowUnfree = true; # allow unfree licence packages, like VSCode
-  users.users.onyr = {
+  users.users."${USER_NAME}" = {
     isNormalUser = true;
-    home = "/home/onyr";       # Home directory path
+    home = "/home/${USER_NAME}";       # Home directory path
     createHome = false;        # Don't create the home directory since it's a mount point
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user
+    
     packages = with pkgs; [
       firefox
       thunderbird
       vscode
       tree
       pavucontrol
+      zotero
       discord
       minecraft
       gnome.gnome-terminal
@@ -151,6 +190,7 @@
       gnome.gnome-tweaks
       gnome.evince
       libreoffice
+      openvpn
     ];
   };
 
@@ -170,6 +210,7 @@
     usbutils
     appimage-run
     gparted
+    python3 # for scripting (add no packages here, use dev shell instead)
   ];
   
 

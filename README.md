@@ -4,6 +4,8 @@ This repository contain my personal NixOS configuration.
 
 This configuration expects that dotfiles are setup for user `onyr`. See [my dotfiles config repo](https://github.com/0nyr/dotfiles) for those dotfiles. I prefered to do so, since I want to reuse those dotfiles on other distros as well.
 
+Flake is used to make reproducible environnement.
+
 ## ❄ NixOS commands
 
 `nix-env --list-generations --profile /nix/var/nix/profiles/system`: list nixos build generations.
