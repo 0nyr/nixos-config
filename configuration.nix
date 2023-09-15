@@ -138,6 +138,7 @@ in
         networkmanagerapplet
         feh # wallpaper
         blueberry # bluetooth manager
+        stacer # system monitor
      ];
     };
 
@@ -211,6 +212,7 @@ in
     appimage-run
     gparted
     python3 # for scripting (add no packages here, use dev shell instead)
+    sshpass
   ];
   
 
@@ -226,6 +228,9 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # clipboard deamon
+  services.greenclip.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
