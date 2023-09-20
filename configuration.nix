@@ -203,7 +203,6 @@ in
     wget
     gedit
     git
-    python3
     htop
     neofetch
     openssl

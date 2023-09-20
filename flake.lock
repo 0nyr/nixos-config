@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1693982086,
-        "narHash": "sha256-Ec9oSAHyHjbgJKoI34ZAt8Xzwg+NGowQxD9XF1S4gno=",
+        "lastModified": 1694527714,
+        "narHash": "sha256-V5K5CdD8QUVx0kjWJwzIFxCqR4gAjaDDTsdWeBgS+ug=",
         "owner": "Lxtharia",
         "repo": "minegrub-theme",
-        "rev": "daf72cbc7feac7f9d53d9230ca9a787ed1e5bba3",
+        "rev": "f6e1c9afe8402e14be4813df30ba0ab5188ccdb2",
         "type": "github"
       },
       "original": {
@@ -36,11 +36,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1693471703,
-        "narHash": "sha256-0l03ZBL8P1P6z8MaSDS/MvuU8E75rVxe5eE1N6gxeTo=",
+        "lastModified": 1694959747,
+        "narHash": "sha256-CXQ2MuledDVlVM5dLC4pB41cFlBWxRw4tCBsFrq3cRk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3e52e76b70d5508f3cec70b882a29199f4d1ee85",
+        "rev": "970a59bd19eff3752ce552935687100c46e820a5",
         "type": "github"
       },
       "original": {

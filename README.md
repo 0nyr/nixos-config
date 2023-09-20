@@ -10,6 +10,12 @@ Flake is used to make reproducible environnement.
 
 `nix-env --list-generations --profile /nix/var/nix/profiles/system`: list nixos build generations.
 
+#### updating packages
+
+`nix flake update`: to update all inputs of the flake
+
+`nix flake lock --update-input`: to update a single input of the flake
+
 ## 🌱 Setup
 
 To enable this repo to be the new config for NixOS, add a symlink to `/etc/` like so:
