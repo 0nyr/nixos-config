@@ -8,7 +8,13 @@ Flake is used to make reproducible environnement.
 
 ## ❄ NixOS commands
 
+#### managing generations
+
 `nix-env --list-generations --profile /nix/var/nix/profiles/system`: list nixos build generations.
+
+`nix-env --delete-generations 34 --profile /nix/var/nix/profiles/system`: delete generation 34
+
+`nix-collect-garbage -d`: run garbagge collector to free up space
 
 #### updating packages
 
