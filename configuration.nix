@@ -189,7 +189,8 @@ in
       gnome.gnome-terminal
       gnome.nautilus
       gnome.gnome-tweaks
-      gnome.evince
+      gnome.evince # pdf reader
+      gnome.eog # image viewer
       libreoffice
       openvpn
     ];
