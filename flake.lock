@@ -5,15 +5,15 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1695830910,
-        "narHash": "sha256-GZkmPsG3Bg4j1ouo1lVx9RIGPHVBlNeE3UvtVHnSKYU=",
-        "owner": "Lxtharia",
+        "lastModified": 1696027499,
+        "narHash": "sha256-DagvZrfY4O+P0VpOCYEnFAYlbEemCu/9ZhH0CUmn8zY=",
+        "owner": "0nyr",
         "repo": "minegrub-theme",
-        "rev": "46601b0b51ea35ee9f9410a3121e565100141ef1",
+        "rev": "2c43caf56fde279d2f1aaf0ad1486b592c173909",
         "type": "github"
       },
       "original": {
-        "owner": "Lxtharia",
+        "owner": "0nyr",
         "repo": "minegrub-theme",
         "type": "github"
       }
