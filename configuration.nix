@@ -192,7 +192,6 @@ in
       gnome.evince # pdf reader
       gnome.eog # image viewer
       libreoffice
-      openvpn
       obsidian
     ];
   };
@@ -215,6 +214,8 @@ in
     python3 # for scripting (add no packages here, use dev shell instead)
     sshpass
     wireguard-tools # VPN
+    openvpn # VPN
+    openconnect # VPN
   ];
   
 
