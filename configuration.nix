@@ -170,12 +170,12 @@ in
   services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  nixpkgs.config.allowUnfree = true; # allow unfree licence packages, like VSCode
+  nixpkgs.config.allowUnfree = true; # allow unfree licence packages, like VSCode users.users.<myuser>.;
   users.users."${USER_NAME}" = {
     isNormalUser = true;
     home = "/home/${USER_NAME}";       # Home directory path
     createHome = false;        # Don't create the home directory since it's a mount point
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user
+    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user
     
     packages = with pkgs; [
       firefox
@@ -193,6 +193,7 @@ in
       gnome.eog # image viewer
       libreoffice
       obsidian
+      krita
     ];
   };
 
@@ -231,6 +232,9 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # Enable Docker
+  virtualisation.docker.enable = true;
 
   # clipboard deamon
   services.greenclip.enable = true;
