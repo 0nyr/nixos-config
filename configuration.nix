@@ -179,11 +179,12 @@ in
     
     packages = with pkgs; [
       firefox
+      brave
       thunderbird
       vscode
       tree
       pavucontrol
-      zotero
+      # zotero
       discord
       minecraft
       gnome.gnome-terminal
@@ -194,6 +195,9 @@ in
       libreoffice
       obsidian
       krita
+
+      # video editing
+      blender
     ];
   };
 
