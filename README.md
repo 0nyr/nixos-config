@@ -14,7 +14,7 @@ Flake is used to make reproducible environnement.
 
 `nix-env --delete-generations 34 --profile /nix/var/nix/profiles/system`: delete generation 34
 
-`nix-collect-garbage -d`: run garbagge collector to free up space
+`nix-collect-garbage -d`: run garbage collector to free up space
 
 #### updating packages
 
