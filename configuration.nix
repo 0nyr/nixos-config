@@ -53,15 +53,15 @@ in
   # ------------------------------------------
   
   # File system configuration
-  fileSystems."/home" = { # mount home 
-    device = "/dev/nvme0n1p8"; # Adjust if the device path is different
-    fsType = "ext4";           
-  };
+  #fileSystems."/home" = { # mount home 
+  #  device = "/dev/nvme0n1p8"; # Adjust if the device path is different
+  #  fsType = "ext4";           
+  #};
 
-  fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-    device = "/dev/nvme0n1p1";
-    fsType = "vfat";
-  };
+  #fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
+  #  device = "/dev/nvme0n1p1";
+  #  fsType = "vfat";
+  #};
 
   # ------------------------------------------
   # Divers setup
@@ -191,10 +191,12 @@ in
       gnome.nautilus
       gnome.gnome-tweaks
       gnome.evince # pdf reader
+      poppler_utils # pdf utils like pdfunite
       gnome.eog # image viewer
       libreoffice
       obsidian
       krita
+      #postman
 
       # video editing
       blender
