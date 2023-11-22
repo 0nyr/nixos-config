@@ -139,6 +139,7 @@ in
         feh # wallpaper
         blueberry # bluetooth manager
         stacer # system monitor
+        zoom-us # video conference
      ];
     };
 
