@@ -140,6 +140,7 @@ in
         blueberry # bluetooth manager
         stacer # system monitor
         zoom-us # video conference
+        ventoy-full # makebootable usb
      ];
     };
 
@@ -185,7 +186,7 @@ in
       vscode
       tree
       pavucontrol
-      # zotero
+      zotero
       discord
       minecraft
       gnome.gnome-terminal
