@@ -22,6 +22,12 @@ Flake is used to make reproducible environnement.
 
 `nix flake lock --update-input`: to update a single input of the flake
 
+#### Building the system
+
+`nixos-rebuild build`: build the system without switching to it.
+
+`nixos-rebuild build`: build the system without switching to it.
+
 ## 🌱 Setup
 
 To enable this repo to be the new config for NixOS, add a symlink to `/etc/` like so:

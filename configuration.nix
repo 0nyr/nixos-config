@@ -171,6 +171,10 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0" # for obsidian, TO BE REMOVED IN THE FUTURE
+  ];
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   nixpkgs.config.allowUnfree = true; # allow unfree licence packages, like VSCode users.users.<myuser>.;
   users.users."${USER_NAME}" = {
@@ -183,7 +187,8 @@ in
       firefox
       brave
       thunderbird
-      vscode
+      #vscode # classic vscode, alias in ~/custom_bash/.bash_aliases
+      vscode.fhs # vscode with Filesystem Hierachy Standard, alias in ~/custom_bash/.bash_aliases
       tree
       pavucontrol
       zotero
