@@ -203,6 +203,7 @@ in
       libreoffice
       obsidian
       krita
+      inkscape
       #postman
 
       # video editing
