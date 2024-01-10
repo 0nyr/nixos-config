@@ -131,6 +131,7 @@ in
         bc
         kitty # terminal
         shutter # screenshot
+        flameshot # screenshot
         rofi # application launcher menu
         xss-lock # screen saver
         i3lock-color
