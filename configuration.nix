@@ -141,6 +141,8 @@ in
         stacer # system monitor
         zoom-us # video conference
         ventoy-full # makebootable usb
+        xorg.xrandr # for dual screen
+        arandr # GUI for xrandr
      ];
     };
 
@@ -157,7 +159,11 @@ in
   # Fonts
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [
-      "FiraCode" "JetBrainsMono"
+      # Names of fonts to use:
+      # -Tinos: Tinos
+      # -FiraCode: Fira Code
+      # -JetBrainsMono: 'JetBrainsMono Nerd Font'
+      "FiraCode" "JetBrainsMono" "Tinos"
     ]; })
   ];  
 
@@ -252,6 +258,9 @@ in
 
   # clipboard deamon
   services.greenclip.enable = true;
+
+  # autorandr (screen management)
+  services.autorandr.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
