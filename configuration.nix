@@ -50,18 +50,20 @@ in
 
   # ------------------------------------------
   # File system
+  # WARN: Don't edit `hardware-configuration.nix` directly, 
+  # instead edit the following section.
   # ------------------------------------------
   
-  # File system configuration
-  #fileSystems."/home" = { # mount home 
-  #  device = "/dev/nvme0n1p8"; # Adjust if the device path is different
-  #  fsType = "ext4";           
-  #};
+  File system configuration
+  fileSystems."/home" = { # mount home 
+   device = "/dev/nvme0n1p8"; # Adjust if the device path is different
+   fsType = "ext4";           
+  };
 
-  #fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-  #  device = "/dev/nvme0n1p1";
-  #  fsType = "vfat";
-  #};
+  fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
+   device = "/dev/nvme0n1p1";
+   fsType = "vfat";
+  };
 
   # ------------------------------------------
   # Divers setup
