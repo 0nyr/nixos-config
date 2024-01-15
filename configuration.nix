@@ -20,28 +20,38 @@ in
   # Bootloader
   # ------------------------------------------
 
-  # Use GRUB as bootloader
+  # # Use GRUB as bootloader
+  # boot.loader = {
+  #   timeout = 30;
+  #   grub = {
+  #     minegrub-theme = {
+  #       enable = true;
+  #       splash = "Per Aspera Ad Astra";
+  #     };
+  #     enable = true;
+  #     efiSupport = true;
+  #     efiInstallAsRemovable = false; # set to true if needed
+  #     device = "nodev";
+  #     useOSProber = true;
+  #     extraEntries = ''
+  #       menuentry "Reboot" {
+  #         reboot
+  #       }
+  #       menuentry "Poweroff" {
+  #         halt
+  #       }
+  #     '';
+  #   };
+  #   efi = {
+  #     efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
+  #     canTouchEfiVariables = true;
+  #   };
+  # };
+
+  # Use systemd-boot for UEFI booting instead of GRUB.
   boot.loader = {
     timeout = 30;
-    grub = {
-      minegrub-theme = {
-        enable = true;
-        splash = "Per Aspera Ad Astra";
-      };
-      enable = true;
-      efiSupport = true;
-      efiInstallAsRemovable = false; # set to true if needed
-      device = "nodev";
-      useOSProber = true;
-      extraEntries = ''
-        menuentry "Reboot" {
-          reboot
-        }
-        menuentry "Poweroff" {
-          halt
-        }
-      '';
-    };
+    systemd-boot.enable = true;
     efi = {
       efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
       canTouchEfiVariables = true;
