@@ -20,28 +20,38 @@ in
   # Bootloader
   # ------------------------------------------
 
-  # Use GRUB as bootloader
+  # # Use GRUB as bootloader
+  # boot.loader = {
+  #   timeout = 30;
+  #   grub = {
+  #     minegrub-theme = {
+  #       enable = true;
+  #       splash = "Per Aspera Ad Astra";
+  #     };
+  #     enable = true;
+  #     efiSupport = true;
+  #     efiInstallAsRemovable = false; # set to true if needed
+  #     device = "nodev";
+  #     useOSProber = false; # Remove other distros for now
+  #     extraEntries = ''
+  #       menuentry "Reboot" {
+  #         reboot
+  #       }
+  #       menuentry "Poweroff" {
+  #         halt
+  #       }
+  #     '';
+  #   };
+  #   efi = {
+  #     efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
+  #     canTouchEfiVariables = true;
+  #   };
+  # };
+
+  # Use systemd-boot for UEFI booting instead of GRUB.
   boot.loader = {
     timeout = 30;
-    grub = {
-      minegrub-theme = {
-        enable = true;
-        splash = "Per Aspera Ad Astra";
-      };
-      enable = true;
-      efiSupport = true;
-      efiInstallAsRemovable = false; # set to true if needed
-      device = "nodev";
-      useOSProber = false; # Remove other distros for now
-      extraEntries = ''
-        menuentry "Reboot" {
-          reboot
-        }
-        menuentry "Poweroff" {
-          halt
-        }
-      '';
-    };
+    systemd-boot.enable = true;
     efi = {
       efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
       canTouchEfiVariables = true;
@@ -52,15 +62,22 @@ in
   # File system
   # WARN: Don't edit `hardware-configuration.nix` directly, 
   # instead edit the following section.
+
+  # $ lsblk -o NAME,FSTYPE,SIZE,UUID,MOUNTPOINTS
   # ------------------------------------------
   
+  fileSystems."/" = { # mount root
+    device = "/dev/disk/by-uuid/fd7e3b14-76d4-4f16-97fa-5cf02ffed52c"; # Adjust if the device path is different
+    fsType = "ext4";
+  };
+
   fileSystems."/home" = { # mount home 
-   device = "/dev/nvme0n1p8"; # Adjust if the device path is different
+   device = "/dev/disk/by-uuid/a011841a-111c-4c37-a0ff-bf44686f1763"; # Adjust if the device path is different
    fsType = "ext4";           
   };
 
   fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-   device = "/dev/nvme0n1p1";
+   device = "/dev/disk/by-uuid/7A06-042A";
    fsType = "vfat";
   };
 
