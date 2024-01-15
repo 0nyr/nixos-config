@@ -32,7 +32,7 @@ in
       efiSupport = true;
       efiInstallAsRemovable = false; # set to true if needed
       device = "nodev";
-      useOSProber = true;
+      useOSProber = false; # Remove other distros for now
       extraEntries = ''
         menuentry "Reboot" {
           reboot
