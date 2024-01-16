@@ -20,6 +20,7 @@ in
   # Bootloader
   # ------------------------------------------
 
+  # Use systemd-boot for UEFI booting instead of GRUB.
   # # Use GRUB as bootloader
   # boot.loader = {
   #   timeout = 30;
@@ -32,7 +33,7 @@ in
   #     efiSupport = true;
   #     efiInstallAsRemovable = false; # set to true if needed
   #     device = "nodev";
-  #     useOSProber = false; # Remove other distros for now
+  #     useOSProber = true;
   #     extraEntries = ''
   #       menuentry "Reboot" {
   #         reboot
@@ -72,14 +73,18 @@ in
   };
 
   fileSystems."/home" = { # mount home 
-   device = "/dev/disk/by-uuid/a011841a-111c-4c37-a0ff-bf44686f1763"; # Adjust if the device path is different
+   device = "/dev/nvme0n1p2"; # Adjust if the device path is different
    fsType = "ext4";           
   };
 
   fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-   device = "/dev/disk/by-uuid/7A06-042A";
+   device = "/dev/nvme0n1p1";
    fsType = "vfat";
   };
+
+  swapDevices = [ 
+    { device = "/dev/disk/by-uuid/960e09e5-cadd-49cc-9d2b-930c3e8daf29"; }
+  ];
 
   # ------------------------------------------
   # Divers setup
