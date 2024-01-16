@@ -69,7 +69,7 @@ in
   };
 
   fileSystems."/home" = { # mount home 
-   device = "/dev/nvme0n1p8"; # Adjust if the device path is different
+   device = "/dev/nvme0n1p2"; # Adjust if the device path is different
    fsType = "ext4";           
   };
 

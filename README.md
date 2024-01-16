@@ -28,6 +28,11 @@ Flake is used to make reproducible environnement.
 
 `nixos-rebuild build`: build the system without switching to it.
 
+## Issue with switch
+
+[See here](https://discourse.nixos.org/t/typeerror-bootspec-init-missing-1-required-positional-argument-initrdsecrets/38008/2)
+
+
 ## 🌱 Setup
 
 To enable this repo to be the new config for NixOS, add a symlink to `/etc/` like so:
