@@ -73,12 +73,12 @@ in
   };
 
   fileSystems."/home" = { # mount home 
-   device = "/dev/nvme0n1p2"; # Adjust if the device path is different
+   device = "/dev/disk/by-uuid/a011841a-111c-4c37-a0ff-bf44686f1763"; # Adjust if the device path is different
    fsType = "ext4";           
   };
 
   fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-   device = "/dev/nvme0n1p1";
+   device = "/dev/disk/by-uuid/7A06-042A";
    fsType = "vfat";
   };
 
