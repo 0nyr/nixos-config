@@ -63,15 +63,20 @@ in
   # ------------------------------------------
   
   # File system configuration
-  #fileSystems."/home" = { # mount home 
-  #  device = "/dev/nvme0n1p8"; # Adjust if the device path is different
-  #  fsType = "ext4";           
-  #};
+  fileSystems."/" = { 
+    device = "/dev/disk/by-uuid/fd7e3b14-76d4-4f16-97fa-5cf02ffed52c";
+    fsType = "ext4";
+  };
 
-  #fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-  #  device = "/dev/nvme0n1p1";
-  #  fsType = "vfat";
-  #};
+  fileSystems."/home" = { # mount home 
+   device = "/dev/nvme0n1p8"; # Adjust if the device path is different
+   fsType = "ext4";           
+  };
+
+  fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
+   device = "/dev/nvme0n1p1";
+   fsType = "vfat";
+  };
 
   # ------------------------------------------
   # Divers setup
