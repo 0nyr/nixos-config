@@ -224,6 +224,7 @@ in
       zotero
       discord
       minecraft
+      # calibre
       gnome.gnome-terminal
       gnome.nautilus
       gnome.gnome-tweaks
