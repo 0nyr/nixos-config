@@ -5,9 +5,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  # efi mount point :
-  EFI_MOUNTPOINT = "/boot/efi";
-  #user name
+  # EFI mount point :
+  EFI_MOUNTPOINT = "/boot";
+  # user name
   USER_NAME = "onyr";
 in
 {
@@ -20,44 +20,43 @@ in
   # Bootloader
   # ------------------------------------------
 
-  # Use systemd-boot for UEFI booting instead of GRUB.
-  # # Use GRUB as bootloader
-  # boot.loader = {
-  #   timeout = 30;
-  #   grub = {
-  #     minegrub-theme = {
-  #       enable = true;
-  #       splash = "Per Aspera Ad Astra";
-  #     };
-  #     enable = true;
-  #     efiSupport = true;
-  #     efiInstallAsRemovable = false; # set to true if needed
-  #     device = "nodev";
-  #     useOSProber = true;
-  #     extraEntries = ''
-  #       menuentry "Reboot" {
-  #         reboot
-  #       }
-  #       menuentry "Poweroff" {
-  #         halt
-  #       }
-  #     '';
-  #   };
-  #   efi = {
-  #     efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
-  #     canTouchEfiVariables = true;
-  #   };
-  # };
-
-  # Use systemd-boot for UEFI booting instead of GRUB.
+  # Use GRUB as bootloader
   boot.loader = {
     timeout = 30;
-    systemd-boot.enable = true;
+    grub = {
+      minegrub-theme = {
+        enable = true;
+        splash = "Per Aspera Ad Astra";
+      };
+      enable = true;
+      efiSupport = true;
+      efiInstallAsRemovable = false; # set to true if needed
+      device = "nodev";
+      useOSProber = true;
+      extraEntries = ''
+        menuentry "Reboot" {
+          reboot
+        }
+        menuentry "Poweroff" {
+          halt
+        }
+      '';
+    };
     efi = {
       efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
       canTouchEfiVariables = true;
     };
   };
+
+  # Use systemd-boot for UEFI booting instead of GRUB.
+  # boot.loader = {
+  #   timeout = 30;
+  #   systemd-boot.enable = true;
+  #   efi = {
+  #     efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
+  #     canTouchEfiVariables = true;
+  #   };
+  # };
 
   # ------------------------------------------
   # File system
@@ -68,7 +67,7 @@ in
   # ------------------------------------------
   
   fileSystems."/" = { # mount root
-    device = "/dev/disk/by-uuid/fd7e3b14-76d4-4f16-97fa-5cf02ffed52c"; # Adjust if the device path is different
+    device = "/dev/disk/by-uuid/a2095764-8eac-416e-abcb-177355f6da4b"; # Adjust if the device path is different
     fsType = "ext4";
   };
 
@@ -112,12 +111,20 @@ in
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkbOptions in tty.
-  # };
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "fr_FR.UTF-8";
+      LC_IDENTIFICATION = "fr_FR.UTF-8";
+      LC_MEASUREMENT = "fr_FR.UTF-8";
+      LC_MONETARY = "fr_FR.UTF-8";
+      LC_NAME = "fr_FR.UTF-8";
+      LC_NUMERIC = "fr_FR.UTF-8";
+      LC_PAPER = "fr_FR.UTF-8";
+      LC_TELEPHONE = "fr_FR.UTF-8";
+      LC_TIME = "fr_FR.UTF-8";
+    };
+  };
 
   # ------------------------------------------
   # GUI
@@ -128,8 +135,10 @@ in
     enable = true;
 
     # Configure keymap in X11
-    layout = "fr";
-    xkbOptions = "eurosign:e,caps:escape";
+    xkb = {
+      layout = "fr";
+      options = "eurosign:e,caps:escape";
+    };
 
     displayManager.defaultSession = "myI3";
     displayManager.session = [
@@ -192,11 +201,24 @@ in
   ];  
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
 
-  # Enable sound.
+  # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
