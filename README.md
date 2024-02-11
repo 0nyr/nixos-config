@@ -28,7 +28,7 @@ Flake is used to make reproducible environnement.
 
 `nixos-rebuild build`: build the system without switching to it.
 
-`nixos-rebuild --install-bootloader boot`: Reinstall the bootloader. 
+`nixos-rebuild --install-bootloader boot`: Reinstall the bootloader.
 
 `systemctl reboot --firmware-setup`: Reboot into Firmware (BIOS-UEFI settings).
 

@@ -1,8 +1,8 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
+# and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   # EFI mount point :
@@ -48,157 +48,46 @@ in
     };
   };
 
-  # Use systemd-boot for UEFI booting instead of GRUB.
-  # boot.loader = {
-  #   timeout = 30;
-  #   systemd-boot.enable = true;
-  #   efi = {
-  #     efiSysMountPoint = "${EFI_MOUNTPOINT}"; # adjust if your mount point differs
-  #     canTouchEfiVariables = true;
-  #   };
-  # };
-
-  # ------------------------------------------
-  # File system
-  # WARN: Don't edit `hardware-configuration.nix` directly, 
-  # instead edit the following section.
-
-  # $ lsblk -o NAME,FSTYPE,SIZE,UUID,MOUNTPOINTS
-  # ------------------------------------------
-  
-  fileSystems."/" = { # mount root
-    device = "/dev/disk/by-uuid/a2095764-8eac-416e-abcb-177355f6da4b"; # Adjust if the device path is different
-    fsType = "ext4";
-  };
-
-  fileSystems."/home" = { # mount home 
-   device = "/dev/disk/by-uuid/a011841a-111c-4c37-a0ff-bf44686f1763"; # Adjust if the device path is different
-   fsType = "ext4";           
-  };
-
-  fileSystems."${EFI_MOUNTPOINT}" = { # mount efi
-   device = "/dev/disk/by-uuid/7A06-042A";
-   fsType = "vfat";
-  };
-
-  swapDevices = [ 
-    { device = "/dev/disk/by-uuid/960e09e5-cadd-49cc-9d2b-930c3e8daf29"; }
-  ];
-
   # ------------------------------------------
   # Divers setup
   # ------------------------------------------
-  
-  # enable experimental features
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-
-  # Set your time zone.
-  time.timeZone = "Europe/Paris";
-
-  # bluetooth
-  hardware.bluetooth.enable = true;
-
-  # opengl
-  hardware.opengl.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+  # Experimental features
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # bluetooth
+  hardware.bluetooth.enable = true;
+
+  # Set your time zone.
+  time.timeZone = "Europe/Paris";
+
   # Select internationalisation properties.
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "fr_FR.UTF-8";
-      LC_IDENTIFICATION = "fr_FR.UTF-8";
-      LC_MEASUREMENT = "fr_FR.UTF-8";
-      LC_MONETARY = "fr_FR.UTF-8";
-      LC_NAME = "fr_FR.UTF-8";
-      LC_NUMERIC = "fr_FR.UTF-8";
-      LC_PAPER = "fr_FR.UTF-8";
-      LC_TELEPHONE = "fr_FR.UTF-8";
-      LC_TIME = "fr_FR.UTF-8";
-    };
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "fr_FR.UTF-8";
+    LC_IDENTIFICATION = "fr_FR.UTF-8";
+    LC_MEASUREMENT = "fr_FR.UTF-8";
+    LC_MONETARY = "fr_FR.UTF-8";
+    LC_NAME = "fr_FR.UTF-8";
+    LC_NUMERIC = "fr_FR.UTF-8";
+    LC_PAPER = "fr_FR.UTF-8";
+    LC_TELEPHONE = "fr_FR.UTF-8";
+    LC_TIME = "fr_FR.UTF-8";
   };
 
-  # ------------------------------------------
-  # GUI
-  # ------------------------------------------
-
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-
-    # Configure keymap in X11
-    xkb = {
-      layout = "fr";
-      options = "eurosign:e,caps:escape";
-    };
-
-    displayManager.defaultSession = "myI3";
-    displayManager.session = [
-      {
-        manage = "desktop";
-        name = "myI3";
-        # start i3 in debug mode
-        #start = ''exec i3 --shmlog-size=26214400'';
-        # start i3 in normal mode
-        start = ''exec i3'';
-      }
-    ];
-
-    windowManager.i3 = {
-      enable = true;
-
-      extraPackages = with pkgs; [
-        # i3 specific packages
-        i3status
-        dmenu
-        (polybar.override { pulseSupport = true; i3Support = true; })
-        bc
-        kitty # terminal
-        shutter # screenshot
-        flameshot # screenshot
-        rofi # application launcher menu
-        xss-lock # screen saver
-        i3lock-color
-        brightnessctl
-        networkmanagerapplet
-        feh # wallpaper
-        blueberry # bluetooth manager
-        stacer # system monitor
-        zoom-us # video conference
-        ventoy-full # makebootable usb
-        xorg.xrandr # for dual screen
-        arandr # GUI for xrandr
-     ];
-    };
-
-    displayManager.gdm.enable = true;
-    #videoDrivers = [ "nvidia" ];
-    #displayManager.defaultSession = "none+i3";
-  };
-  
-  # configure console keymap
-  console = {
-    keyMap = "fr";
-  };
-
-  # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [
-      # Names of fonts to use:
-      # -Tinos: Tinos
-      # -FiraCode: Fira Code
-      # -JetBrainsMono: 'JetBrainsMono Nerd Font'
-      "FiraCode" "JetBrainsMono" "Tinos"
-    ]; })
-  ];  
+  # Configure console keymap
+  console.keyMap = "fr";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -223,59 +112,135 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0" # for obsidian, TO BE REMOVED IN THE FUTURE
-  ];
+  # Fonts
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [
+      # Names of fonts to use:
+      # -Tinos: Tinos
+      # -FiraCode: Fira Code
+      # -JetBrainsMono: 'JetBrainsMono Nerd Font'
+      "FiraCode" "JetBrainsMono" "Tinos"
+    ]; })
+  ];  
+
+  # ------------------------------------------
+  # GUI
+  # ------------------------------------------
+
+  # Enable the X11 windowing system with wayland support
+  services.xserver = {
+    enable = true;
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
+    desktopManager.gnome.enable = true;
+    videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
+    xkb = {
+      layout = "fr";
+      variant = "";
+    }; # Configure keymap in X11
+  };
+
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
+  hardware.nvidia = {
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    powerManagement.enable = false;
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Only available from driver 515.43.04+
+    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    open = false;
+
+    # Enable the Nvidia settings menu,
+	  # accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    # NVIDIA driver (select appropriate package for your card)
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    # Enable Optimus Prime support
+    prime = {
+      sync.enable = true;
+      
+      # $ sudo lshw -c display
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  # ------------------------------------------
+  # User and packages
+  # ------------------------------------------
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  nixpkgs.config.allowUnfree = true; # allow unfree licence packages, like VSCode users.users.<myuser>.;
-  users.users."${USER_NAME}" = {
+  users.users.onyr = {
     isNormalUser = true;
-    home = "/home/${USER_NAME}";       # Home directory path
-    createHome = false;        # Don't create the home directory since it's a mount point
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user
-    
+    description = "onyr";
+    home = "/home/onyr";
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
+      # applications
       firefox
       brave
+      vscode.fhs
       thunderbird
-      #vscode # classic vscode, alias in ~/custom_bash/.bash_aliases
-      vscode.fhs # vscode with Filesystem Hierachy Standard, alias in ~/custom_bash/.bash_aliases
-      tree
-      pavucontrol
       zotero
       discord
-      minecraft
-      # calibre
-      gnome.gnome-terminal
-      gnome.nautilus
-      gnome.gnome-tweaks
-      gnome.evince # pdf reader
-      poppler_utils # pdf utils like pdfunite
-      gnome.eog # image viewer
       libreoffice
       obsidian
       krita
       inkscape
-      #postman
 
-      # video editing
-      blender
+      # utilities
+      pavucontrol
+      networkmanagerapplet
+      brightnessctl
+      kitty # terminal
+      blueberry # bluetooth manager
+      stacer # system monitor
+      zoom-us # video conference
+      ventoy-full # makebootable usb
+      flameshot # screenshot
     ];
   };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0" # for obsidian, TO BE REMOVED IN THE FUTURE
+  ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # stable packages here
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     gedit
     git
-    htop
-    neofetch
-    openssl
     direnv
+    neofetch
+    lshw # for hardware information
+    htop
+    tree
+    openssl
     usbutils
     appimage-run
     gparted
@@ -285,7 +250,6 @@ in
     openvpn # VPN
     openconnect # VPN
   ];
-  
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -303,30 +267,18 @@ in
   # Enable Docker
   virtualisation.docker.enable = true;
 
-  # clipboard deamon
-  services.greenclip.enable = true;
-
-  # autorandr (screen management)
-  services.autorandr.enable = true;
-
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
+  # on your system were taken. It‘s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-
