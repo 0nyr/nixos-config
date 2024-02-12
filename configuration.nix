@@ -249,6 +249,7 @@ in
     openconnect # VPN
 
     # Hyprland
+    mesa-demos
     wofi # Application launcher
     waybar # Status bar
     pamixer # for waybar audio
