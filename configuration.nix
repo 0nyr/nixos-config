@@ -98,6 +98,7 @@ in
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
+    wireplumber.enable = true; # Wireplumber as session manager for Pipewire
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -127,7 +128,15 @@ in
   # GUI
   # ------------------------------------------
 
-  # Enable the X11 windowing system with wayland support
+  # Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  # Optional, hint electron apps to use wayland:
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   services.xserver = {
     enable = true;
     displayManager.gdm = {
@@ -207,17 +216,6 @@ in
       obsidian
       krita
       inkscape
-
-      # utilities
-      pavucontrol
-      networkmanagerapplet
-      brightnessctl
-      kitty # terminal
-      blueberry # bluetooth manager
-      stacer # system monitor
-      zoom-us # video conference
-      ventoy-full # makebootable usb
-      flameshot # screenshot
     ];
   };
 
@@ -237,7 +235,7 @@ in
     git
     direnv
     neofetch
-    lshw # for hardware information
+    lshw # for hardware information.
     htop
     tree
     openssl
@@ -249,6 +247,37 @@ in
     wireguard-tools # VPN
     openvpn # VPN
     openconnect # VPN
+
+    # Hyprland
+    wofi # Application launcher
+    waybar # Status bar
+    pamixer # for waybar audio
+    rofi-wayland # Alternate application launcher for Wayland
+    xdg-desktop-portal-hyprland # XDG portals implementation for Hyprland
+    xdg-desktop-portal-gtk # GTK portals for file dialogs, screenshots, etc.
+    wl-clipboard # Clipboard utilities for Wayland
+    swaylock # Screen locker for Wayland
+    swayidle # Idle management daemon for Wayland
+    swaynotificationcenter # Notification center for Sway, compatible with other Wayland compositors
+    swww # Wayland wallpapers
+    pipewire # Audio and video routing and processing
+    wireplumber # Session and policy manager for Pipewire
+    qt5.qtwayland # QT5 support for Wayland
+    qt6.qtwayland # QT6 support for Wayland
+    clipman # Clipboard manager
+    wlogout # For logout screen
+    pavucontrol # for advance sound control
+    networkmanagerapplet # for network applet on bar
+    brightnessctl # for screen brightness
+    kitty # terminal
+    blueberry # bluetooth manager
+    stacer # system monitor
+    zoom-us # video conference
+    ventoy-full # makebootable usb
+    flameshot # screenshot
+    nwg-look # for theming GTK apps
+    qt5ct # for theming QT5 apps
+    libsForQt5.qtstyleplugin-kvantum # for theming QT apps
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
