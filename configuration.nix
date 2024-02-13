@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   # EFI mount point :
@@ -143,7 +143,7 @@ in
       enable = true;
       wayland = true;
     };
-    desktopManager.gnome.enable = true;
+    desktopManager.gnome.enable = false;
     videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
     xkb = {
       layout = "fr";
@@ -156,6 +156,17 @@ in
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+    # https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
+    # https://nixos.wiki/wiki/Accelerated_Video_Playback
+    extraPackages = with pkgs; [
+      (if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then vaapiIntel else intel-vaapi-driver)
+      libvdpau-va-gl
+      intel-media-driver
+    ];
+  };
+
+  environment.variables = {
+    VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
   };
 
   hardware.nvidia = {
@@ -186,7 +197,10 @@ in
 
     # Enable Optimus Prime support
     prime = {
-      sync.enable = true;
+      offload = {
+			  enable = true;
+			  enableOffloadCmd = true;
+		  };
       
       # $ sudo lshw -c display
       intelBusId = "PCI:0:2:0";
@@ -247,9 +261,10 @@ in
     wireguard-tools # VPN
     openvpn # VPN
     openconnect # VPN
+    killall # for killing processes
 
     # Hyprland
-    mesa-demos
+    mesa-demos # for testing nvidia offloading. $ glxgears -info
     wofi # Application launcher
     waybar # Status bar
     pamixer # for waybar audio
@@ -279,6 +294,14 @@ in
     nwg-look # for theming GTK apps
     qt5ct # for theming QT5 apps
     libsForQt5.qtstyleplugin-kvantum # for theming QT apps
+
+    # Gnome apps
+    gnome.gnome-terminal
+    gnome.nautilus
+    gnome.gnome-tweaks
+    gnome.evince # pdf reader
+    gnome.gnome-calculator
+    gnome.eog # image viewer
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
