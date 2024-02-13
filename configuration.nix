@@ -143,13 +143,32 @@ in
       enable = true;
       wayland = true;
     };
-    desktopManager.gnome.enable = false;
+    desktopManager.gnome.enable = true;
+    windowManager.i3.enable = true;
+    desktopManager.runXdgAutostartIfNone = true;
     videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
     xkb = {
       layout = "fr";
       variant = "";
     }; # Configure keymap in X11
   };
+
+  # i3 extra packages
+  services.xserver.windowManager.i3.extraPackages = with pkgs; [
+    # i3 specific packages
+    i3status
+    dmenu
+    (polybar.override { pulseSupport = true; i3Support = true; })
+    bc
+    shutter # screenshot
+    flameshot # screenshot
+    rofi # application launcher menu
+    xss-lock # screen saver
+    i3lock-color
+    feh # wallpaper
+    xorg.xrandr # for dual screen
+    arandr # GUI for xrandr
+  ];
 
   # Enable OpenGL
   hardware.opengl = {
@@ -197,9 +216,10 @@ in
 
     # Enable Optimus Prime support
     prime = {
+      
       offload = {
 			  enable = true;
-			  enableOffloadCmd = true;
+        enableOffloadCmd = lib.mkIf config.hardware.nvidia.prime.offload.enable true; # Provides `nvidia-offload` command.
 		  };
       
       # $ sudo lshw -c display
@@ -302,6 +322,7 @@ in
     gnome.evince # pdf reader
     gnome.gnome-calculator
     gnome.eog # image viewer
+    gnome.gnome-calendar
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
