@@ -248,6 +248,7 @@ in
       discord
       libreoffice
       obsidian
+      pdfannots2json # command line utility for Obsidian (Zotero Integration plugin)
       krita
       inkscape
     ];
