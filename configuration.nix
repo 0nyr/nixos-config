@@ -129,19 +129,19 @@ in
   # ------------------------------------------
 
   # Hyprland
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  # };
 
   # Optional, hint electron apps to use wayland:
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   services.xserver = {
     enable = true;
     displayManager.gdm = {
       enable = true;
-      wayland = true;
+      # wayland = true;
     };
     desktopManager.gnome.enable = true;
     windowManager.i3.enable = true;
