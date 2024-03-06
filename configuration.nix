@@ -339,6 +339,9 @@ in
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  # Enable auto mounting of removable media
+  services.udisks2.enable = true;
+
   # Enable Docker
   virtualisation.docker.enable = true;
 
