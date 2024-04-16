@@ -146,7 +146,7 @@ in
     desktopManager.gnome.enable = true;
     windowManager.i3.enable = true;
     desktopManager.runXdgAutostartIfNone = true;
-    videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
+    #videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
     xkb = {
       layout = "fr";
       variant = "";
@@ -170,13 +170,23 @@ in
     arandr # GUI for xrandr
   ];
 
-  # Enable OpenGL
+  # # Enable OpenGL
+  # hardware.opengl = {
+  #   enable = true;
+  #   driSupport = true;
+  #   driSupport32Bit = true;
+  #   # https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
+  #   # https://nixos.wiki/wiki/Accelerated_Video_Playback
+  #   extraPackages = with pkgs; [
+  #     (if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then vaapiIntel else intel-vaapi-driver)
+  #     libvdpau-va-gl
+  #     intel-media-driver
+  #   ];
+  # };
+  
+  # see https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
+  # and https://github.com/NixOS/nixos-hardware/blob/master/tuxedo/infinitybook/pro14/gen7/default.nix
   hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    # https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
-    # https://nixos.wiki/wiki/Accelerated_Video_Playback
     extraPackages = with pkgs; [
       (if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then vaapiIntel else intel-vaapi-driver)
       libvdpau-va-gl
@@ -187,46 +197,51 @@ in
   environment.variables = {
     VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
   };
+  
+  # see https://github.com/NixOS/nixos-hardware/blob/master/common/pc/ssd/default.nix
+  # and https://github.com/NixOS/nixos-hardware/blob/master/tuxedo/infinitybook/pro14/gen7/default.nix
+  services.fstrim.enable = lib.mkDefault true;
 
-  hardware.nvidia = {
-    # Modesetting is required.
-    modesetting.enable = true;
+  # hardware.nvidia = {
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
+  #   # Modesetting is required.
+  #   modesetting.enable = true;
 
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
+  #   # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+  #   powerManagement.enable = false;
+  #   # Fine-grained power management. Turns off GPU when not in use.
+  #   # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+  #   powerManagement.finegrained = false;
 
-    # Enable the Nvidia settings menu,
-	  # accessible via `nvidia-settings`.
-    nvidiaSettings = true;
+  #   # Use the NVidia open source kernel module (not to be confused with the
+  #   # independent third-party "nouveau" open source driver).
+  #   # Support is limited to the Turing and later architectures. Full list of 
+  #   # supported GPUs is at: 
+  #   # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+  #   # Only available from driver 515.43.04+
+  #   # Currently alpha-quality/buggy, so false is currently the recommended setting.
+  #   open = false;
 
-    # NVIDIA driver (select appropriate package for your card)
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #   # Enable the Nvidia settings menu,
+	#   # accessible via `nvidia-settings`.
+  #   nvidiaSettings = true;
 
-    # Enable Optimus Prime support
-    prime = {
+  #   # NVIDIA driver (select appropriate package for your card)
+  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+  #   # Enable Optimus Prime support
+  #   prime = {
       
-      offload = {
-			  enable = true;
-        enableOffloadCmd = lib.mkIf config.hardware.nvidia.prime.offload.enable true; # Provides `nvidia-offload` command.
-		  };
+  #     offload = {
+	# 		  enable = false;
+  #       enableOffloadCmd = lib.mkIf config.hardware.nvidia.prime.offload.enable true; # Provides `nvidia-offload` command.
+	# 	  };
       
-      # $ sudo lshw -c display
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
+  #     # $ sudo lshw -c display
+  #     intelBusId = "PCI:0:2:0";
+  #     nvidiaBusId = "PCI:1:0:0";
+  #   };
+  # };
 
   # ------------------------------------------
   # User and packages
@@ -243,6 +258,7 @@ in
       firefox
       brave
       vscode.fhs
+      eclipses.eclipse-java
       thunderbird
       zotero
       discord
@@ -283,6 +299,7 @@ in
     openvpn # VPN
     openconnect # VPN
     killall # for killing processes
+    #megasync # MEGA cloud sync WARN: wait for freeimage dependency.
 
     # Hyprland
     mesa-demos # for testing nvidia offloading. $ glxgears -info
@@ -300,11 +317,7 @@ in
     pipewire # Audio and video routing and processing
     wireplumber # Session and policy manager for Pipewire
     qt5.qtwayland # QT5 support for Wayland
-    qt6.qtwayland # QT6 support for Wayland
-    clipman # Clipboard manager
-    wlogout # For logout screen
-    pavucontrol # for advance sound control
-    networkmanagerapplet # for network applet on bar
+    qt6.qtwayland # QT6 support for WaylandPersonne à contacter au sujets des formations de l'[[école doctorale SPIN]]on bar
     brightnessctl # for screen brightness
     kitty # terminal
     blueberry # bluetooth manager
