@@ -52,8 +52,11 @@ in
   # Divers setup
   # ------------------------------------------
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking = {
+    hostName = "nixos"; # Define your hostname.
+    networkmanager.enable = true; # Enable networking
+    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -61,9 +64,6 @@ in
 
   # Experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # bluetooth
   hardware.bluetooth.enable = true;
@@ -300,6 +300,8 @@ in
     openconnect # VPN
     killall # for killing processes
     #megasync # MEGA cloud sync WARN: wait for freeimage dependency.
+    networkmanagerapplet # for network applet on bar
+    pavucontrol # for advanced sound control
 
     # Hyprland
     mesa-demos # for testing nvidia offloading. $ glxgears -info
