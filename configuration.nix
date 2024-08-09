@@ -269,6 +269,10 @@ in
         pdfannots2json # command line utility for Obsidian (Zotero Integration plugin)
         krita
         inkscape
+
+        # games
+        prismlauncher # For Minecraft
+        steam
       ];
     };
 
