@@ -272,7 +272,6 @@ in
 
         # games
         prismlauncher # For Minecraft
-        steam
       ];
     };
 
@@ -358,6 +357,7 @@ in
     #   enable = true;
     #   enableSSHSupport = true;
     # };
+    programs.steam.enable = true;
 
     # List services that you want to enable:
 
