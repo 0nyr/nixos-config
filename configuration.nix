@@ -95,7 +95,6 @@ in
     services.printing.enable = true;
 
     # Enable sound with pipewire.
-    #sound.enable = true;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
@@ -282,6 +281,10 @@ in
     # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
 
+    # discord freeze related: https://www.reddit.com/r/ManjaroLinux/comments/deo4x2/discord_freezes_when_getting_notifications/
+    # https://discourse.nixos.org/t/sending-notifications-from-system-services/4825
+    services.systembus-notify.enable = true;
+
     # cplex
     # nixpkgs.config.cplex.releasePath = "/home/onyr/cplex2210";
 
@@ -310,7 +313,9 @@ in
       #megasync # MEGA cloud sync WARN: wait for freeimage dependency.
       networkmanagerapplet # for network applet on bar
       pavucontrol # for advanced sound control
-      #cplex
+      alsa-utils # for alsamixer
+      qjackctl # jack audio app to control the JACK sound server daemon
+      pciutils # for PCI utilities (like listing audio cards)
 
       # Hyprland
       mesa-demos # for testing nvidia offloading. $ glxgears -info
