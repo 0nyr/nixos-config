@@ -5,6 +5,9 @@
   inputs = {
     # Official NixOS package source
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # Nixos Hardware
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
     # Minecraft grub2 theme
     #minegrub-theme.url = "github:Lxtharia/minegrub-theme"; # official repo
@@ -26,6 +29,8 @@
       modules = [
         ./configuration.nix
         inputs.minegrub-theme.nixosModules.default
+        # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
+        inputs.nixos-hardware.nixosModules.tuxedo-infinitybook-pro14-gen7
         # other modules
         #({...}: {
         #  nixpkgs.config.packageOverrides = pkgs: {

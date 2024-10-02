@@ -144,7 +144,7 @@ in
         enable = true;
         # wayland = true;
       };
-      desktopManager.gnome.enable = true;
+      desktopManager.gnome.enable = false;
       windowManager.i3.enable = true;
       desktopManager.runXdgAutostartIfNone = true;
       #videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
@@ -253,7 +253,7 @@ in
       isNormalUser = true;
       description = "onyr";
       home = "/home/onyr";
-      extraGroups = [ "networkmanager" "wheel" "docker" ];
+      extraGroups = [ "audio" "networkmanager" "wheel" "docker" ];
       packages = with pkgs; [
         # applications
         firefox
@@ -315,7 +315,10 @@ in
       pavucontrol # for advanced sound control
       alsa-utils # for alsamixer
       qjackctl # jack audio app to control the JACK sound server daemon
+      qpwgraph # for visualizing PipeWire graph, equivalent to what qjackctl is to JACK
       pciutils # for PCI utilities (like listing audio cards)
+      hw-probe # for hardware and driver probing $ sudo -E hw-probe -all -upload
+      keepassxc # password manager
 
       # Hyprland
       mesa-demos # for testing nvidia offloading. $ glxgears -info
