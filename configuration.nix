@@ -169,6 +169,10 @@ in
       feh # wallpaper
       xorg.xrandr # for dual screen
       arandr # GUI for xrandr
+      dunst # notification
+      libnotify # notification
+      lxappearance # for theming in X11
+      adwaita-icon-theme # for icons
     ];
 
     # # Enable OpenGL
@@ -253,7 +257,7 @@ in
       isNormalUser = true;
       description = "onyr";
       home = "/home/onyr";
-      extraGroups = [ "audio" "networkmanager" "wheel" "docker" ];
+      extraGroups = [ "audio" "networkmanager" "wheel" "docker" "storage" ];
       packages = with pkgs; [
         # applications
         firefox
@@ -283,7 +287,26 @@ in
 
     # discord freeze related: https://www.reddit.com/r/ManjaroLinux/comments/deo4x2/discord_freezes_when_getting_notifications/
     # https://discourse.nixos.org/t/sending-notifications-from-system-services/4825
+    # WARN: should not be done on a machine where you do not trust the other users (see on https://search.nixos.org)
     services.systembus-notify.enable = true;
+
+    # https://github.com/NixOS/nixpkgs/issues/349759
+    nixpkgs.overlays = [
+    (self: super: {
+      tlp = super.tlp.overrideAttrs (old: {
+        makeFlags = (old.makeFlags or [ ]) ++ [
+          "TLP_ULIB=/lib/udev"
+          "TLP_NMDSP=/lib/NetworkManager/dispatcher.d"
+          "TLP_SYSD=/lib/systemd/system"
+          "TLP_SDSL=/lib/systemd/system-sleep"
+          "TLP_ELOD=/lib/elogind/system-sleep"
+          "TLP_CONFDPR=/share/tlp/deprecated.conf"
+          "TLP_FISHCPL=/share/fish/vendor_completions.d"
+          "TLP_ZSHCPL=/share/zsh/site-functions"
+        ];
+      });
+    })
+  ];
 
     # cplex
     # nixpkgs.config.cplex.releasePath = "/home/onyr/cplex2210";
@@ -373,6 +396,8 @@ in
     services.openssh.enable = true;
 
     # Enable auto mounting of removable media
+    services.devmon.enable = true;
+    services.gvfs.enable = true;
     services.udisks2.enable = true;
 
     # Enable Docker
