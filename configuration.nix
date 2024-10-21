@@ -257,7 +257,7 @@ in
       isNormalUser = true;
       description = "onyr";
       home = "/home/onyr";
-      extraGroups = [ "audio" "networkmanager" "wheel" "docker" "storage" ];
+      extraGroups = [ "audio" "networkmanager" "wheel" "docker" "storage" "vboxusers" ];
       packages = with pkgs; [
         # applications
         firefox
@@ -402,6 +402,11 @@ in
 
     # Enable Docker
     virtualisation.docker.enable = true;
+
+    # Enable VirtualBox
+    virtualisation.virtualbox.host.enable = true;
+    virtualisation.virtualbox.guest.enable = true;
+    virtualisation.virtualbox.guest.dragAndDrop = true;
 
     # Open ports in the firewall.
     # networking.firewall.allowedTCPPorts = [ ... ];
