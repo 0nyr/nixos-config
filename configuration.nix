@@ -333,7 +333,7 @@ in
       openvpn # VPN
       openconnect # VPN
       killall # for killing processes
-      #megasync # MEGA cloud sync WARN: wait for freeimage dependency.
+      megasync # MEGA cloud sync WARN: wait for freeimage dependency.
       networkmanagerapplet # for network applet on bar
       pavucontrol # for advanced sound control
       alsa-utils # for alsamixer
@@ -368,7 +368,6 @@ in
       ventoy-full # makebootable usb
       flameshot # screenshot
       nwg-look # for theming GTK apps
-      qt5ct # for theming QT5 apps
       libsForQt5.qtstyleplugin-kvantum # for theming QT apps
 
       # Gnome apps
