@@ -116,14 +116,11 @@ in
 
     # Fonts
     fonts.packages = with pkgs; [
-      (nerdfonts.override { fonts = [
-        # Names of fonts to use:
-        # -Tinos: Tinos
-        # -FiraCode: Fira Code
-        # -JetBrainsMono: 'JetBrainsMono Nerd Font'
-        "FiraCode" "JetBrainsMono" "Tinos"
-      ]; })
-    ];  
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.tinos
+    ];
+
 
     # ------------------------------------------
     # GUI
@@ -263,15 +260,17 @@ in
         firefox
         brave
         vscode.fhs
-        eclipses.eclipse-java
-        thunderbird
-        zotero
-        discord
-        libreoffice
-        obsidian
+        eclipses.eclipse-java 
+        thunderbird # amazing email client
+        zotero # reference manager for research
+        discord # chat
+        libreoffice # office suite, libre version of MS Office
+        obsidian # note taking app
         pdfannots2json # command line utility for Obsidian (Zotero Integration plugin)
-        krita
-        inkscape
+        krita # painting and image editing
+        inkscape # vector graphics editor
+        vlc # the famous media player
+        tenacity # audio editor, fork of Audacity
 
         # games
         prismlauncher # For Minecraft
