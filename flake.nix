@@ -8,6 +8,9 @@
 
     # Nixos Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Home manager
+    home-manager.url = "github:nix-community/home-manager";
     
     # Minecraft grub2 theme
     #minegrub-theme.url = "github:Lxtharia/minegrub-theme"; # official repo
