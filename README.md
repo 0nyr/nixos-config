@@ -13,7 +13,16 @@ Flake is used to make reproducible environment.
 `nix-env --list-generations --profile /nix/var/nix/profiles/system`: list nixos build generations.
 `nixos-rebuild list-generations`: also list nixos build generations.
 
-`nix-env --delete-generations 34 --profile /nix/var/nix/profiles/system`: delete generation 34
+`nix-env --delete-generations 34 --profile /nix/var/nix/profiles/system`: delete generation 34. Example below:
+
+```
+[root@nixos:/home/onyr/nixos-config]# nix-env --delete-generations 37 39 41 42 43 --profile /nix/var/nix/profiles/system
+removing profile version 37
+removing profile version 39
+removing profile version 41
+removing profile version 42
+removing profile version 43
+```
 
 `nix-collect-garbage -d`: run garbage collector to free up space
 
