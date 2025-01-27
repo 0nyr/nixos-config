@@ -1,8 +1,13 @@
 # Changelog
 
-Sun 10th Sep 2023
+### Mon 27 Jan 2025
 
-* Added bluetooth
+* Finally, the day when I merge my laptop and desktop configurations.
+* Added Tmux
+
+### Sun 10th Sep 2023
+
+* Added Bluetooth
 * Refactoring of the config file to follow what Clément has done.
 * Added `zotero`
 

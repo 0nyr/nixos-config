@@ -1,6 +1,6 @@
 # flake.nix for /etc/nixos/
 {
-  description = "Custom 0nyr's NixOS configuration";
+  description = "Multi-system custom 0nyr's NixOS configuration";
 
   inputs = {
     # Official NixOS package source
@@ -22,25 +22,18 @@
     #       "aarch64-linux" / "x86_64-darwin" / "aarch64-darwin"
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-    # replace whatever comes after nixosConfigurations with your hostname.
-    # My laptop configuration
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = system;
-      modules = [
-        ./configuration.nix
-        inputs.minegrub-theme.nixosModules.default
-        # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
-        inputs.nixos-hardware.nixosModules.tuxedo-infinitybook-pro14-gen7
-        # other modules
-        #({...}: {
-        #  nixpkgs.config.packageOverrides = pkgs: {
-        #    vscode = pkgs.vscode.overrideAttrs (old: {
-        #      version = "1.82.1";
-        #      # You might need to set other attributes like src as well
-        #    });
-        #  };
-        #})
-      ];
+    # Machine-based system configurations
+    nixosConfigurations = {
+      "Aezyr-Workstation" = nixpkgs.lib.nixosSystem {
+        system = system;
+        specialArgs.inputs = inputs;
+        modules = [ ./hosts/aezyr/configuration.nix ];
+      };
+      "Kenzae-Laptop" = nixpkgs.lib.nixosSystem {
+        system = system;
+        specialArgs.inputs = inputs;
+        modules = [ ./hosts/kenzae/configuration.nix ];
+      };
     };
 
     # development shell
