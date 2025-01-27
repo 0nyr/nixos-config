@@ -6,7 +6,7 @@
     isNormalUser = true;
     description = "onyr";
     home = "/home/onyr";
-    extraGroups = [ "networkmanager" "wheel" "docker" "video" "render" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "audio" "storage" "video" "render" "vboxusers" ];
     packages = with pkgs; [
       # applications
       firefox

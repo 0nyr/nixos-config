@@ -18,11 +18,6 @@
     ./onyr.nix
     ./packages.nix
     ./sound.nix
-    # GUI, desktop, and window manager configuration.
-    ./gui/gnome.nix
-    ./gui/sway.nix
-    ./gui/hyprland.nix
-    ./gui/i3.nix
   ];
 
   # Configure network proxy if necessary
@@ -57,14 +52,16 @@
   # Enable the gnome-keyring secrets vault. 
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
 
   # Enable the X11 windowing system.
-  services.displayManager.sddm.enable = true; # supported well by Hyprland
   services.xserver = {
     enable = true; # Enable the X11 windowing system
     #displayManager.gdm.enable = true;
     desktopManager.runXdgAutostartIfNone = true;
+    xkb = {
+      layout = "fr";
+      variant = "";
+    }; # Configure keymap in X11
   };
 
   hardware.graphics = {

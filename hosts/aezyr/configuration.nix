@@ -8,9 +8,18 @@
   imports = [
     ../../modules/configuration.nix
     ./hardware-configuration.nix
+    # GUI, desktop, and window manager configuration.
+    ../../modules/gui/gnome.nix
+    ../../modules/gui/sway.nix
+    ../../modules/gui/hyprland.nix
+    ../../modules/gui/i3.nix
   ];
 
   networking.hostName = "aezyr"; # Define your hostname.
+
+  # display manager
+  services.displayManager.sddm.enable = true; # supported well by Hyprland
+  security.pam.services.sddm.enableGnomeKeyring = true; # Enable the gnome-keyring secrets vault.
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

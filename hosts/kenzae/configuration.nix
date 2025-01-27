@@ -7,12 +7,24 @@
 {
   imports = [
     ../../modules/configuration.nix
+    ../../modules/gui/i3.nix
     ./hardware-configuration.nix
     # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
     inputs.nixos-hardware.nixosModules.tuxedo-infinitybook-pro14-gen7
   ];
 
   networking.hostName = "kenzae"; # Define your hostname.
+
+  # Display manager (gnome)
+  services.xserver = {
+    displayManager.gdm = {
+      enable = true;
+      # wayland = true;
+    };
+  };
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.libinput.enable = true;
 
   # see https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
   # and https://github.com/NixOS/nixos-hardware/blob/master/tuxedo/infinitybook/pro14/gen7/default.nix
