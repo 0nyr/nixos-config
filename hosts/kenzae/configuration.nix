@@ -23,6 +23,29 @@
     };
   };
 
+      # discord freeze related: https://www.reddit.com/r/ManjaroLinux/comments/deo4x2/discord_freezes_when_getting_notifications/
+    # https://discourse.nixos.org/t/sending-notifications-from-system-services/4825
+    # WARN: should not be done on a machine where you do not trust the other users (see on https://search.nixos.org)
+    services.systembus-notify.enable = true;
+
+    # https://github.com/NixOS/nixpkgs/issues/349759
+    nixpkgs.overlays = [
+      (self: super: {
+        tlp = super.tlp.overrideAttrs (old: {
+          makeFlags = (old.makeFlags or [ ]) ++ [
+            "TLP_ULIB=/lib/udev"
+            "TLP_NMDSP=/lib/NetworkManager/dispatcher.d"
+            "TLP_SYSD=/lib/systemd/system"
+            "TLP_SDSL=/lib/systemd/system-sleep"
+            "TLP_ELOD=/lib/elogind/system-sleep"
+            "TLP_CONFDPR=/share/tlp/deprecated.conf"
+            "TLP_FISHCPL=/share/fish/vendor_completions.d"
+            "TLP_ZSHCPL=/share/zsh/site-functions"
+          ];
+        });
+      })
+    ];
+
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 

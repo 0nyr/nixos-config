@@ -101,6 +101,8 @@
   # };
 
   # List services that you want to enable:
+  # bluetooth
+  hardware.bluetooth.enable = true;
 
   # Enable auto mounting of removable media
   services.devmon.enable = true;
