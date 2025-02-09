@@ -10,12 +10,25 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     
     # Minecraft grub2 theme
     #minegrub-theme.url = "github:Lxtharia/minegrub-theme"; # official repo
     #minegrub-theme.url = "github:ocfox/minegrub-theme"; # alternative older fork
     minegrub-theme.url = "github:0nyr/minegrub-theme"; # my fork with some fixes
+
+    # hy3 / hyperland
+    # See https://github.com/hyprwm/Hyprland
+    hyprland.url = "github:hyprwm/Hyprland?submodules=1&ref=v0.47.2";
+    hy3 = {
+      url = "github:outfoxxed/hy3?ref=hl0.47.0-1"; # where {version} is the hyprland release version
+      # or "github:outfoxxed/hy3" to follow the development branch.
+      # (you may encounter issues if you dont do the same for hyprland)
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = {nixpkgs, ...} @ inputs: 

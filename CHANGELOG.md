@@ -4,6 +4,7 @@
 
 * Finally, the day when I merge my laptop and desktop configurations.
 * Added Tmux
+* Remove the `nixos` symlink on Aezyr to change from `nixos-config-desktop` to `nixos-config` the now general config for all my systems.
 
 ### Sun 10th Sep 2023
 

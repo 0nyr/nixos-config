@@ -8,6 +8,7 @@
   imports = [
     ../../modules/configuration.nix
     ./hardware-configuration.nix
+    ./home.nix
     # GUI, desktop, and window manager configuration.
     ../../modules/gui/gnome.nix
     ../../modules/gui/sway.nix
