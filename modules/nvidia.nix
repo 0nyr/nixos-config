@@ -10,6 +10,6 @@
     open = true;
     nvidiaSettings = true; # Enable the nvidia settings menu
     # Video card specific - stable supports "newer" cards, production for 535 drivers
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 }

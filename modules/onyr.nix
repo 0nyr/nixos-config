@@ -23,6 +23,7 @@
       inkscape # vector graphics editor
       vlc # the famous media player
       tenacity # audio editor, fork of Audacity
+      davinci-resolve # video editor
 
       # games
       prismlauncher # For Minecraft

@@ -22,7 +22,7 @@
 
     # hy3 / hyperland
     # See https://github.com/hyprwm/Hyprland
-    hyprland.url = "github:hyprwm/Hyprland?submodules=1&ref=v0.47.2";
+    hyprland.url = "github:hyprwm/Hyprland?submodules=1&ref=v0.47.1";
     hy3 = {
       url = "github:outfoxxed/hy3?ref=hl0.47.0-1"; # where {version} is the hyprland release version
       # or "github:outfoxxed/hy3" to follow the development branch.

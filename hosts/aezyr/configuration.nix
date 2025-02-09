@@ -8,7 +8,6 @@
   imports = [
     ../../modules/configuration.nix
     ./hardware-configuration.nix
-    ./home.nix
     # GUI, desktop, and window manager configuration.
     ../../modules/gui/gnome.nix
     ../../modules/gui/sway.nix
@@ -17,6 +16,8 @@
   ];
 
   networking.hostName = "aezyr"; # Define your hostname.
+
+  home-manager.users.onyr = import ./home.nix;
 
   # display manager
   services.displayManager.sddm.enable = true; # supported well by Hyprland
