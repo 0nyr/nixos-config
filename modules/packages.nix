@@ -36,6 +36,7 @@
     hw-probe # for hardware and driver probing $ sudo -E hw-probe -all -upload
     keepassxc # password manager
     tmux # terminal multiplexer
+    ffmpeg-full # Complete, cross-platform solution to record, convert and stream audio and video
 
     # Hyprland or Sway (Wayland) packages
     mesa-demos # for testing nvidia offloading. $ glxgears -info
