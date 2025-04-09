@@ -24,6 +24,9 @@
       vlc # the famous media player
       tenacity # audio editor, fork of Audacity
       davinci-resolve # video editor
+      obs-studio # screen recording
+      simplescreenrecorder # screen recording
+      kooha # screen recording
 
       # games
       prismlauncher # For Minecraft
