@@ -163,7 +163,10 @@
   # and https://github.com/NixOS/nixos-hardware/blob/master/tuxedo/infinitybook/pro14/gen7/default.nix
   services.fstrim.enable = lib.mkDefault true;
 
-  # hardware.nvidia = {
+  # hardware = {
+  #   graphics.enable = true;
+  #   nvidia = {
+  #   
 
   #   # Modesetting is required.
   #   modesetting.enable = true;
@@ -194,13 +197,15 @@
   #   prime = {
       
   #     offload = {
-  # 		  enable = false;
+  # 		  enable = true;
   #       enableOffloadCmd = lib.mkIf config.hardware.nvidia.prime.offload.enable true; # Provides `nvidia-offload` command.
+  #       enableOffloadCmd = true;
   # 	  };
       
   #     # $ sudo lshw -c display
   #     intelBusId = "PCI:0:2:0";
   #     nvidiaBusId = "PCI:1:0:0";
+  #   };
   #   };
   # };
 

@@ -12,4 +12,13 @@
     # Video card specific - stable supports "newer" cards, production for 535 drivers
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  # LLMs and AI models (Need Nvidia)
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
+  services.open-webui = {
+    enable = true;
+  }
 }
