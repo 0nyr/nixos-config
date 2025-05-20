@@ -21,4 +21,12 @@
     xorg.xrandr # for dual screen
     arandr # GUI for xrandr
   ];
+
+  security.wrappers.i3lock-color = {
+    source = "${pkgs.i3lock-color}/bin/i3lock";
+    owner = "root";
+    group = "root";
+    setuid = true;
+    capabilities = [ ]; # explicitly set to empty
+  };
 }
