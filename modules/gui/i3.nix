@@ -20,6 +20,10 @@
     feh # wallpaper
     xorg.xrandr # for dual screen
     arandr # GUI for xrandr
+    dunst # notification
+    libnotify # notification
+    lxappearance # for theming in X11
+    adwaita-icon-theme # for icons
   ];
 
   # i3 lock pam for screen locker

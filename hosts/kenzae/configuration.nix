@@ -8,6 +8,7 @@
   imports = [
     ../../modules/boot.nix
     ../../modules/packages.nix
+    ../../modules/gui/i3.nix
     ./hardware-configuration.nix
     # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
     inputs.nixos-hardware.nixosModules.tuxedo-infinitybook-pro14-gen7
@@ -101,7 +102,6 @@
       # wayland = true;
     };
     desktopManager.gnome.enable = false;
-    windowManager.i3.enable = true;
     desktopManager.runXdgAutostartIfNone = true;
     #videoDrivers = ["nvidia"]; # Load nvidia driver for Xorg and Wayland
     xkb = {
@@ -109,27 +109,6 @@
       variant = "";
     }; # Configure keymap in X11
   };
-
-  # i3 extra packages
-  services.xserver.windowManager.i3.extraPackages = with pkgs; [
-    # i3 specific packages
-    i3status
-    dmenu
-    (polybar.override { pulseSupport = true; i3Support = true; })
-    bc
-    shutter # screenshot
-    flameshot # screenshot
-    rofi # application launcher menu
-    xss-lock # screen saver
-    i3lock-color
-    feh # wallpaper
-    xorg.xrandr # for dual screen
-    arandr # GUI for xrandr
-    dunst # notification
-    libnotify # notification
-    lxappearance # for theming in X11
-    adwaita-icon-theme # for icons
-  ];
 
   # # Enable OpenGL
   # hardware.opengl = {
