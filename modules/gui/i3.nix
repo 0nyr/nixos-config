@@ -16,17 +16,13 @@
     flameshot # screenshot
     rofi # application launcher menu
     xss-lock # screen saver
-    i3lock-color
+    i3lock-color # screen locker. Requires PAM
     feh # wallpaper
     xorg.xrandr # for dual screen
     arandr # GUI for xrandr
   ];
 
-  security.wrappers.i3lock-color = {
-    source = "${pkgs.i3lock-color}/bin/i3lock";
-    owner = "root";
-    group = "root";
-    setuid = true;
-    capabilities = [ ]; # explicitly set to empty
-  };
+  # i3 lock pam for screen locker
+  programs.i3lock.enable = true;
+  security.pam.services.i3lock.enable = true;
 }
