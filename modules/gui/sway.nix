@@ -22,8 +22,8 @@
 
   xdg.portal = {
     enable = true;
+    config.common.default = "*";
     extraPortals = with pkgs; [
-      # https://wiki.hyprland.org/Useful-Utilities/xdg-desktop-portal-hyprland/
       xdg-desktop-portal-wlr
       xdg-desktop-portal-gtk
       kdePackages.xdg-desktop-portal-kde

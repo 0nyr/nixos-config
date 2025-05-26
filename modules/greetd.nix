@@ -1,7 +1,6 @@
 # See: https://www.drakerossman.com/blog/wayland-on-nixos-confusion-conquest-triumph#display-server
 {
-  pkgs,
-  ...
+  pkgs, ...
 }:
 
 {
@@ -13,12 +12,14 @@
         --time \
         --asterisks \
         --user-menu \
-        --cmd sway --unsupported-gpu \
+        --cmd "dbus-run-session sway --unsupported-gpu" \
     '';
     };
   };
 
-  environment.etc."greetd/environments".text = ''
+  # Ensure that the greetd service has access to sway
+  environment.systemPackages = with pkgs; [
+    greetd.tuigreet
     sway
-  '';
+  ];
 }

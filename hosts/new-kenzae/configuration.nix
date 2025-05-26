@@ -37,16 +37,6 @@
     }; # Configure keymap in X11
   };
 
-  # Create a custom Sway session with the --unsupported-gpu flag
-  environment.etc."xdg/sessions/sway-custom.desktop".text = ''
-    [Desktop Entry]
-    Name=Sway (NVIDIA)
-    Comment=Wayland session using sway with --unsupported-gpu
-    Exec=/run/current-system/sw/bin/sway --unsupported-gpu
-    Type=Application
-    DesktopNames=sway
-  '';
-
   # Bootloader. 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
