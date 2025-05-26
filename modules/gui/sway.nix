@@ -1,9 +1,15 @@
 { config, pkgs, lib, ... }:
 
-{
-  # Remember: You can switch to TTY with 
-
-  environment.systemPackages = with pkgs; [
+let
+  # NOTE: Need to build flameshot with Wayland support.
+  pkgsWithWaylandFlameshot = pkgs.extend (final: prev: {
+    flameshot = prev.flameshot.overrideAttrs (old: {
+      cmakeFlags = (old.cmakeFlags or []) ++ [ "-DUSE_WAYLAND_GRIM=ON" ];
+    });
+  });
+in {
+  environment.systemPackages = with pkgsWithWaylandFlameshot; [
+    flameshot
     grim # screenshot functionality
     slurp # screenshot functionality
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout

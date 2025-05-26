@@ -4,6 +4,8 @@ This repository contains my personal NixOS configuration.
 
 This configuration expects that dotfiles are set up for user `onyr`. See [my dotfiles config repo](https://github.com/0nyr/dotfiles) for those dotfiles. I preferred to do so, since I want to reuse those dotfiles on other distros as well. Yet I'm planning to transition to `home-manager` in the future.
 
+This configuration is thought with simplicity, modularity, and expendability in mind. It manages multiple hosts (machines). Each host has its own configuration with specifics in `hosts/<machine-name>/configuration.nix`. Rebuild each specific system with dedicated `nix-rebuild switch --flake` command (see below).
+
 Flake is used to make reproducible environment.
 
 ## ❄ NixOS commands

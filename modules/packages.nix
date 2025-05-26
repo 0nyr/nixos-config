@@ -62,7 +62,6 @@
     # ventoy-full # makebootable usb - temporarily disabled due to being insecure: https://github.com/NixOS/nixpkgs/issues/404663
     nwg-look # for theming GTK apps
     libsForQt5.qtstyleplugin-kvantum # for theming QT apps
-    flameshot # screenshot
     grim # screenshot functionality
     slurp # screenshot functionality
 
