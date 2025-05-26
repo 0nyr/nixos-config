@@ -31,7 +31,7 @@
     };
   };
 
-  outputs = {nixpkgs, ...} @ inputs: 
+  outputs = {nixpkgs, ...} @ inputs:
   let
     system = "x86_64-linux";
     #       ↑ Swap it for your system if needed
@@ -42,17 +42,17 @@
     nixosConfigurations = {
       "Aezyr-Workstation" = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs.inputs = inputs;
+        specialArgs = { inherit inputs; };
         modules = [ ./hosts/aezyr/configuration.nix ];
       };
       "Kenzae-Laptop" = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs.inputs = inputs;
+        specialArgs = { inherit inputs; };
         modules = [ ./hosts/kenzae/configuration.nix ];
       };
       "New-Kenzae-Laptop" = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs.inputs = inputs;
+        specialArgs = { inherit inputs; };
         modules = [ ./hosts/new-kenzae/configuration.nix ];
       };
     };

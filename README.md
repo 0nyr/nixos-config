@@ -35,14 +35,20 @@ removing profile version 43
 #### (Re)-building the system
 
 `sudo nixos-rebuild switch --flake .#Aezyr-Workstation`: rebuild Aezyr system.
-
 `sudo nixos-rebuild switch --flake .#Kenzae-Laptop`: rebuild Aezyr system.
+`sudo nixos-rebuild switch --flake .#New-Kenzae-Laptop`: 
 
 `nixos-rebuild build`: build the system without switching to it.
 
 `nixos-rebuild --install-bootloader boot`: Reinstall the bootloader.
 
 `systemctl reboot --firmware-setup`: Reboot into Firmware (BIOS-UEFI settings).
+
+## GUI commands
+
+### Sway
+
+> Remember: You can switch to a TTY instead of relying on GDM for starting the GUI. Move to a TTY with `Ctrl`+`Alt`+`F1` or other `F-<something>` key, then run: `sway --unsupported-gpu`.
 
 ## 🌱 Setup
 

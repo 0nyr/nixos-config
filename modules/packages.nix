@@ -68,7 +68,8 @@
 
     # Gnome apps
     gnome-terminal
-    nautilus
+    nautilus 
+    kdePackages.dolphin # KDE file explorer
     gnome-tweaks
     evince # pdf reader
     gnome-calculator

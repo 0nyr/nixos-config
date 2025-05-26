@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Remember: You can switch to TTY with 
+
   environment.systemPackages = with pkgs; [
     grim # screenshot functionality
     slurp # screenshot functionality
@@ -16,5 +18,15 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      # https://wiki.hyprland.org/Useful-Utilities/xdg-desktop-portal-hyprland/
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
+      kdePackages.xdg-desktop-portal-kde
+    ];
   };
 }

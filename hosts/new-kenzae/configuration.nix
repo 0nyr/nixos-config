@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -17,6 +17,7 @@
       ../../modules/onyr.nix
       ../../modules/packages.nix
       ../../modules/sound.nix
+      ../../modules/greetd.nix
       # GUI, desktop, and window manager configuration.
       ../../modules/gui/gnome.nix
       ../../modules/gui/sway.nix
@@ -24,8 +25,27 @@
     ];
   
   networking.hostName = "nixos"; # Define your hostname.
-  services.xserver.displayManager.gdm.enable = true; # Enable the GDM (Gnome) display manager.
-  home-manager.users.onyr = import ./home.nix;
+
+  # Enable the X11 windowing system, use GDM as Login Screen (Display Manager),
+  services.xserver = {
+    enable = true; # Enable the X11 windowing system
+    #displayManager.gdm.enable = true;
+    #desktopManager.runXdgAutostartIfNone = true;
+    xkb = {
+      layout = "fr";
+      variant = "";
+    }; # Configure keymap in X11
+  };
+
+  # Create a custom Sway session with the --unsupported-gpu flag
+  environment.etc."xdg/sessions/sway-custom.desktop".text = ''
+    [Desktop Entry]
+    Name=Sway (NVIDIA)
+    Comment=Wayland session using sway with --unsupported-gpu
+    Exec=/run/current-system/sw/bin/sway --unsupported-gpu
+    Type=Application
+    DesktopNames=sway
+  '';
 
   # Bootloader. 
   boot.loader.systemd-boot.enable = true;
@@ -37,13 +57,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Home Manager
-  home-manager = {
-    extraSpecialArgs.inputs = inputs;
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -54,22 +67,6 @@
   # Enable the gnome-keyring secrets vault. 
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true; # Enable the X11 windowing system
-    #displayManager.gdm.enable = true;
-    desktopManager.runXdgAutostartIfNone = true;
-    xkb = {
-      layout = "fr";
-      variant = "";
-    }; # Configure keymap in X11
-  };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true; # On 64-bit systems, whether to also install 32-bit drivers for 32-bit applications (such as Wine).
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = false;
