@@ -26,7 +26,7 @@
     };
 
   fileSystems."/home" =
-    { device = "/dev/nvme0n1p3";
+    { device = "/dev/disk/by-uuid/5987b834-3fc3-40f5-b6a5-6bea46db99ce";
       fsType = "ext4";
     };
 
