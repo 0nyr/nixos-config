@@ -38,7 +38,7 @@ removing profile version 43
 
 `sudo nixos-rebuild switch --flake .#Aezyr-Workstation`: rebuild Aezyr system.
 `sudo nixos-rebuild switch --flake .#Kenzae-Laptop`: rebuild Aezyr system.
-`sudo nixos-rebuild switch --flake .#New-Kenzae-Laptop`: 
+`sudo nixos-rebuild switch --flake .#New-Kenzae-Laptop`: Rebuilt the latest config on **Kenzae laptop**.
 
 `nixos-rebuild build`: build the system without switching to it.
 

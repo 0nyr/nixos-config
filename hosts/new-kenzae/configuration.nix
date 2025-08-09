@@ -18,6 +18,7 @@
       ../../modules/packages.nix
       ../../modules/sound.nix
       ../../modules/greetd.nix
+      ../../modules/nixconf.nix
       # GUI, desktop, and window manager configuration.
       ../../modules/gui/gnome.nix
       ../../modules/gui/sway.nix

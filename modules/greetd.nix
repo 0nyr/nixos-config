@@ -13,7 +13,7 @@
     enable = true;
     settings = {
      default_session.command = ''
-      ${pkgs.greetd.tuigreet}/bin/tuigreet \
+      ${pkgs.tuigreet}/bin/tuigreet \
         --time \
         --asterisks \
         --user-menu \
@@ -24,7 +24,7 @@
 
   # Ensure that the greetd service has access to sway
   environment.systemPackages = with pkgs; [
-    greetd.tuigreet
+    tuigreet
     sway
   ];
 }
