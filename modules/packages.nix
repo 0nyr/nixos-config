@@ -44,7 +44,7 @@
     wofi # Application launcher
     waybar # Status bar
     pamixer # for waybar audio
-    rofi-wayland # Alternate application launcher for Wayland
+    rofi # Alternate application launcher for Wayland
     wl-clipboard # Clipboard utilities for Wayland
     swaylock # Screen locker for Wayland
     swayidle # Idle management daemon for Wayland
