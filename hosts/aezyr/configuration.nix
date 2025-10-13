@@ -6,12 +6,13 @@
 
 {
   imports = [
-    ../../modules/configuration.nix
     ./hardware-configuration.nix
+    # General configuration files.
+    ../../modules/configuration.nix
     # GUI, desktop, and window manager configuration.
     ../../modules/gui/gnome.nix
     ../../modules/gui/sway.nix
-    ../../modules/gui/hyprland.nix
+    # ../../modules/gui/hyprland.nix
     ../../modules/gui/i3.nix
   ];
 
@@ -22,6 +23,19 @@
   # display manager
   services.displayManager.sddm.enable = true; # supported well by Hyprland
   security.pam.services.sddm.enableGnomeKeyring = true; # Enable the gnome-keyring secrets vault.
+
+  # SSH
+  services.fail2ban.enable = true; # bans hosts that cause multiple authentication errors.
+  services.openssh = {
+    enable = true;
+    ports = [ 14275 14276 ];
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+      AllowUsers = [ "onyr" ];
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
