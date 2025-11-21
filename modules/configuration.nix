@@ -19,6 +19,7 @@
     ./onyr.nix
     ./packages.nix
     ./sound.nix
+    ./nixconf.nix
   ];
 
   # Configure network proxy if necessary
@@ -89,9 +90,10 @@
   virtualisation.docker.enable = true;
 
   # Enable VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.guest.dragAndDrop = true;
+  # TODO: tmp disable build failed
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.guest.enable = true;
+  # virtualisation.virtualbox.guest.dragAndDrop = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
