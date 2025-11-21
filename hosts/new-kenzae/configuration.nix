@@ -22,7 +22,6 @@
       # GUI, desktop, and window manager configuration.
       ../../modules/gui/gnome.nix
       ../../modules/gui/sway.nix
-      ../../modules/gui/i3.nix
     ];
   
   networking.hostName = "nixos"; # Define your hostname.

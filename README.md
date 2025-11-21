@@ -52,6 +52,12 @@ removing profile version 43
 
 > Remember: You can switch to a TTY instead of relying on GDM for starting the GUI. Move to a TTY with `Ctrl`+`Alt`+`F1` or other `F-<something>` key, then run: `sway --unsupported-gpu`.
 
+Command to start **Sway** from a NixOs TTY:
+```
+nix-shell -p tuigreet # Get login (aka display) manager to launch wayland Sway.
+tuigreet --time --asterisks --user-menu --cmd "dbus-run-session sway --unsupported-gpu > /tmp/sway.log 2>&1"
+```
+
 ## 🌱 Setup
 
 To enable this repo to be the new config for NixOS, add a symlink to `/etc/` like so:

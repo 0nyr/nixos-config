@@ -23,7 +23,7 @@
   #   enable = true;
   #   acceleration = "cuda";
   # }; # Build failed...
-  services.open-webui = {
-    enable = true;
-  };
+  # services.open-webui = {
+  #   enable = true;
+  # }; # worked but now fails
 }
