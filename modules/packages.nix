@@ -12,6 +12,8 @@
     wget
     gedit
     git
+    gh # GitHub CLI
+    unzip
     direnv
     neofetch
     lshw # for hardware information.
@@ -64,6 +66,8 @@
     libsForQt5.qtstyleplugin-kvantum # for theming QT apps
     grim # screenshot functionality
     slurp # screenshot functionality
+    syncthing # continuous file synchronization program
+    syncthingtray # System tray app for Syncthing
 
     # Gnome apps
     gnome-terminal
