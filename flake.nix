@@ -50,11 +50,6 @@
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/kenzae/configuration.nix ];
       };
-      "New-Kenzae-Laptop" = nixpkgs.lib.nixosSystem {
-        system = system;
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/new-kenzae/configuration.nix ];
-      };
     };
 
     # development shell
