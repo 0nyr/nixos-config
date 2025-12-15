@@ -12,7 +12,9 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Tmp fix: wait for 6.18 when nvidia supports it
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/0f497232-2106-4020-89ba-a6bfc2934274";

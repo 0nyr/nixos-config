@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-stable, lib, ... }:
 
 {
   # Use i3 on top of Gnome
@@ -6,8 +6,8 @@
     windowManager.i3.enable = true;
   };
 
-  services.xserver.windowManager.i3.extraPackages = with pkgs; [
-    # i3 specific packages
+  services.xserver.windowManager.i3.extraPackages = with pkgs-stable; [
+    # i3 specific packages - use stable for rock-solid window manager components
     i3status
     dmenu
     (polybar.override { pulseSupport = true; i3Support = true; })

@@ -2,7 +2,7 @@
 # See https://nix.dev/manual/nix/2.25/command-ref/conf-file.html 
 # It is used to generate the /etc/nix/nix.conf file.
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-stable, lib, ... }:
 
 {
   nix = {

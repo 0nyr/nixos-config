@@ -5,6 +5,7 @@
   inputs = {
     # Official NixOS package source
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11"; # Stable channel for rock-solid packages
 
     # Nixos Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -31,23 +32,27 @@
     };
   };
 
-  outputs = {nixpkgs, ...} @ inputs:
+  outputs = {nixpkgs, nixpkgs-stable, ...} @ inputs:
   let
     system = "x86_64-linux";
     #       ↑ Swap it for your system if needed
     #       "aarch64-linux" / "x86_64-darwin" / "aarch64-darwin"
     pkgs = nixpkgs.legacyPackages.${system};
+    pkgs-stable = import nixpkgs-stable {
+      inherit system;
+      config.allowUnfree = true;
+    };
   in {
     # Machine-based system configurations
     nixosConfigurations = {
       "Aezyr-Workstation" = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs pkgs-stable; };
         modules = [ ./hosts/aezyr/configuration.nix ];
       };
       "Kenzae-Laptop" = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs pkgs-stable; };
         modules = [ ./hosts/kenzae/configuration.nix ];
       };
     };

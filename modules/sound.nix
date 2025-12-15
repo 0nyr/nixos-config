@@ -1,8 +1,8 @@
-{ config, pkgs, lib, ...}:
+{ config, pkgs, pkgs-stable, lib, ...}:
 
 {
-  # sound related packages
-  environment.systemPackages = with pkgs; [
+  # sound related packages - use stable for rock-solid audio utilities
+  environment.systemPackages = with pkgs-stable; [
     pavucontrol # for advanced sound control
     alsa-utils # for alsamixer
     qjackctl # jack audio app to control the JACK sound server daemon

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-stable, lib, ... }:
 
 # Example: https://github.com/srid/nixos-config/blob/master/modules/nixos/linux/gui/hyprland/default.nix
 

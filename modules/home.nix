@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, pkgs-stable, inputs, lib, ... }:
 {
   programs = {
     home-manager.enable = true;

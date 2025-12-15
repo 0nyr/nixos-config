@@ -1,8 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-stable, lib, ... }:
 
 let
   # NOTE: Need to build flameshot with Wayland support.
-  pkgsWithWaylandFlameshot = pkgs.extend (final: prev: {
+  # Use stable packages for rock-solid desktop utilities
+  pkgsWithWaylandFlameshot = pkgs-stable.extend (final: prev: {
     flameshot = prev.flameshot.overrideAttrs (old: {
       cmakeFlags = (old.cmakeFlags or []) ++ [ "-DUSE_WAYLAND_GRIM=ON" ];
     });
@@ -33,9 +34,9 @@ in {
   xdg.portal = {
     enable = true;
     config.common.default = "*";
-    extraPortals = with pkgs; [
+    extraPortals = with pkgs-stable; [
       xdg-desktop-portal-wlr
-      xdg-desktop-portal-gtk
+      #xdg-desktop-portal-gtk # already present due to Gnome being installed.
       kdePackages.xdg-desktop-portal-kde
     ];
   };

@@ -4,16 +4,22 @@
 # It supports various greeters, including tui-greet, which provides a terminal-based login interface.
 # See: https://www.drakerossman.com/blog/wayland-on-nixos-confusion-conquest-triumph#display-server
 {
-  pkgs, ...
+  pkgs, pkgs-stable, ...
 }:
 
 {
+  # Ensure that the greetd service has access to sway - use stable for login components
+  environment.systemPackages = with pkgs-stable; [
+    tuigreet
+    sway
+  ];
+
   # NB: check greetd logs: journalctl -xeu greetd.service
   services.greetd = {
     enable = true;
     settings = {
      default_session.command = ''
-      ${pkgs.tuigreet}/bin/tuigreet \
+      ${pkgs-stable.tuigreet}/bin/tuigreet \
         --time \
         --asterisks \
         --user-menu \
@@ -21,10 +27,4 @@
     '';
     };
   };
-
-  # Ensure that the greetd service has access to sway
-  environment.systemPackages = with pkgs; [
-    tuigreet
-    sway
-  ];
 }
