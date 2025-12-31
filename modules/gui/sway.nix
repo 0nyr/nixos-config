@@ -33,9 +33,9 @@ in {
 
   xdg.portal = {
     enable = true;
+    wlr.enable = true; # provides xdg-desktop-portal-wlr (don't add it to extraPortals too!)
     config.common.default = "*";
     extraPortals = with pkgs-stable; [
-      xdg-desktop-portal-wlr
       #xdg-desktop-portal-gtk # already present due to Gnome being installed.
       kdePackages.xdg-desktop-portal-kde
     ];
