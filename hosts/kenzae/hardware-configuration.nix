@@ -14,7 +14,7 @@
   boot.extraModulePackages = [ ];
   # Tmp fix: wait for 6.18 when nvidia supports it
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/0f497232-2106-4020-89ba-a6bfc2934274";
