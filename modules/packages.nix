@@ -16,7 +16,7 @@
     gh # GitHub CLI
     unzip
     direnv
-    neofetch
+    fastfetch # Note: 'neofetch' has been removed because it is unmaintained upstream.
     lshw # for hardware information
     htop
     tree
