@@ -15,7 +15,7 @@ in {
     slurp # screenshot functionality
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     mako # notification system developed by swaywm maintainer
-    lxqt.lxqt-policykit # polkit agent for wayland
+    polkit_gnome # polkit agent for wayland (replaces lxqt which had auth dialog bugs)
   ];
 
   # Enable the gnome-keyring secrets vault. 
@@ -24,6 +24,21 @@ in {
 
   # enable polkit for permission management
   security.polkit.enable = true;
+
+  # start polkit authentication agent on login
+  # NOTE: Sway doesn't activate graphical-session.target, so we use default.target
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "default.target" ];
+    after = [ "default.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+  };
 
   # enable sway window manager
   programs.sway = {
