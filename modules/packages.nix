@@ -76,6 +76,7 @@
     obs-studio # screen recording
     simplescreenrecorder # screen recording
     kooha # screen recording
+    telegram-desktop # messaging app
 
     # Games
     prismlauncher # For Minecraft
