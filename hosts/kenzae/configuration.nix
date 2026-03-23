@@ -24,7 +24,7 @@
       ../../modules/gui/sway.nix
     ];
   
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "kenzae"; # Define your hostname.
 
   # Enable the X11 windowing system, use GDM as Login Screen (Display Manager),
   services.xserver = {
