@@ -44,7 +44,7 @@
     swayidle # Idle management daemon for Wayland
     swaynotificationcenter # Notification center for Sway, compatible with other Wayland compositors
     mako # notification system developed by swaywm maintainer
-    swww # Wayland wallpapers
+    awww # Wayland wallpapers
     pipewire # Audio and video routing and processing
     wireplumber # Session and policy manager for Pipewire
     qt5.qtwayland # QT5 support for Wayland

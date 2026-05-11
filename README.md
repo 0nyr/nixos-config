@@ -41,6 +41,8 @@ removing profile version 43
 
 `nixos-rebuild build`: build the system without switching to it.
 
+`nixos-rebuild boot`: build the system and set it as the default for the next boot, but don't switch to it immediately. Use `sudo reboot` to reboot into it.
+
 `nixos-rebuild --install-bootloader boot`: Reinstall the bootloader.
 
 `systemctl reboot --firmware-setup`: Reboot into Firmware (BIOS-UEFI settings).
