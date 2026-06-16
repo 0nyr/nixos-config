@@ -40,10 +40,11 @@
     pamixer # for waybar audio
     rofi # Alternate application launcher for Wayland
     wl-clipboard # Clipboard utilities for Wayland
+    wl-mirror # mirror/clone an output onto another for screen-sharing / presentations (Sway has no native clone)
     swaylock # Screen locker for Wayland
     swayidle # Idle management daemon for Wayland
     swaynotificationcenter # Notification center for Sway, compatible with other Wayland compositors
-    mako # notification system developed by swaywm maintainer
+    libnotify # provides notify-send (used by scripts to post desktop notifications)
     awww # Wayland wallpapers
     pipewire # Audio and video routing and processing
     wireplumber # Session and policy manager for Pipewire
