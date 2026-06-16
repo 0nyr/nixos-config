@@ -13,5 +13,13 @@
       # WARNING: Hyphenated (-) keys must be quoted
       "download-buffer-size" = 1073741824; # 1 Gib
     };
+
+    # Local flake alias: `nix develop base` -> ~/nix-dev-base
+    # Uses the `path:` fetcher so uncommitted edits to the base flake are
+    # picked up live (no commit needed while iterating).
+    registry.base.to = {
+      type = "path";
+      path = "/home/onyr/nix-dev-base";
+    };
   };
 }
