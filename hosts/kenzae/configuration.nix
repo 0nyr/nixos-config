@@ -19,6 +19,8 @@
       ../../modules/sound.nix
       ../../modules/greetd.nix
       ../../modules/nixconf.nix
+      # Home Manager (dotagents symlinks for Claude Code + Codex).
+      ../../modules/home-manager.nix
       # GUI, desktop, and window manager configuration.
       ../../modules/gui/gnome.nix
       ../../modules/gui/sway.nix
