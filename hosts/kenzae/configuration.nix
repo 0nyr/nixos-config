@@ -39,9 +39,16 @@
     }; # Configure keymap in X11
   };
 
-  # Bootloader. 
+  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Panic (and auto-reboot) on kernel hard lockups and hung tasks instead of
+  # freezing silently with no trace, as happened on 2026-07-08 (no OOM, no
+  # lockup detection, journal just stopped).
+  boot.kernel.sysctl."kernel.hardlockup_panic" = 1;
+  boot.kernel.sysctl."kernel.hung_task_panic" = 1;
+  boot.kernel.sysctl."kernel.panic" = 10; # seconds before auto-reboot after a panic
 
   ########### configuration.nix ###########
 
