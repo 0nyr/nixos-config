@@ -18,13 +18,11 @@
   services.greetd = {
     enable = true;
     settings = {
-     default_session.command = ''
-      ${pkgs-stable.tuigreet}/bin/tuigreet \
-        --time \
-        --asterisks \
-        --user-menu \
-        --cmd "dbus-run-session sway --unsupported-gpu > /tmp/sway.log 2>&1" \
-    '';
+      # NB: keep this on a single line. A multi-line Nix string embeds real
+      # newlines into the generated TOML as a multi-line literal string,
+      # which greetd's TOML parser fails to load ("expected equals sign on
+      # line, but found none"), even though the TOML itself is spec-valid.
+      default_session.command = ''${pkgs-stable.tuigreet}/bin/tuigreet --time --asterisks --user-menu --cmd "dbus-run-session sway --unsupported-gpu > /tmp/sway.log 2>&1"'';
     };
   };
 }
