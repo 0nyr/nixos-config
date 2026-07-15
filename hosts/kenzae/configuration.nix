@@ -63,9 +63,16 @@
   nix.settings.experimental-features = ["nix-command" "flakes" ];
 
   # secret management: https://www.reddit.com/r/NixOS/comments/1auje1p/hyprland_and_secrets_management/
-  # Enable the gnome-keyring secrets vault. 
+  # Enable the gnome-keyring secrets vault.
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
+
+  # Unlock the gnome-keyring "login" keyring automatically at login, using the
+  # password typed into tuigreet (greetd's PAM service). This is what lets the
+  # SSH key passphrase (and the gh token) live in the keyring and be available
+  # after login without retyping. Without this, the keyring stays locked and
+  # every secret access prompts.
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = false;
@@ -96,10 +103,10 @@
   # Enable Docker
   virtualisation.docker.enable = true;
 
-  # Enable VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.guest.dragAndDrop = true;
+  # # Enable VirtualBox
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.guest.enable = true;
+  # virtualisation.virtualbox.guest.dragAndDrop = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
