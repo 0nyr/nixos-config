@@ -14,6 +14,7 @@
     wget
     git
     gh # GitHub CLI
+    libsecret # provides secret-tool: CLI client for the gnome-keyring secret service (see gh-mamut below)
     unzip
     direnv
     fastfetch # Note: 'neofetch' has been removed because it is unmaintained upstream.
@@ -113,4 +114,44 @@
     nwg-look # for theming GTK apps
     libsForQt5.qtstyleplugin-kvantum # for theming QT apps
   ]);
+
+  # `gh` stores exactly one token per host per account, and our personal
+  # fine-grained PAT is owned by the personal account `0nyr`, so it cannot act on
+  # ANR-MAMUT resources: org-owned repos need a token whose *resource owner* is
+  # the org (verified 2026-07-18: collaborators and actions/secrets both return
+  # "403 Resource not accessible by personal access token"). Note that the
+  # `permissions` field the API returns on those repos reflects the *user's*
+  # rights, not the token's, so it misleadingly reads `admin: true`.
+  #
+  # Rather than swapping the stored token (which would break personal-repo `gh`
+  # access), override it per-invocation from the keyring. Requires a one-time:
+  #   secret-tool store --label="gh ANR-MAMUT PAT" service gh-mamut account 0nyr
+  #
+  # Kept at OS level (not in nix-dev-base) on purpose: secret-tool is a client of
+  # the gnome-keyring service enabled in modules/gui/sway.nix and PAM-unlocked via
+  # greetd, so it belongs to the same layer as that daemon. It is never a build
+  # input for any project. OS-level also means it stays on PATH inside every
+  # `nix develop` shell, whereas the reverse would leave this function broken in
+  # plain (non-dev-shell) shells, which is where gh actually gets used.
+  #
+  # NB: environment.interactiveShellInit is types.lines, so this merges with the
+  # SSH_AUTH_SOCK block defined in modules/gui/sway.nix rather than conflicting.
+  #
+  # The empty-token guard matters: with GH_TOKEN="" gh silently falls back to
+  # *unauthenticated* requests instead of erroring, which surfaces as confusing
+  # 404s on private resources rather than an auth failure. Fail loudly instead.
+  environment.interactiveShellInit = ''
+    gh-mamut() {
+      local _tok
+      _tok="$(secret-tool lookup service gh-mamut account 0nyr 2>/dev/null)"
+      if [ -z "$_tok" ]; then
+        echo "gh-mamut: no ANR-MAMUT token found in the keyring." >&2
+        echo "Store one with:" >&2
+        echo '  secret-tool store --label="gh ANR-MAMUT PAT" service gh-mamut account 0nyr' >&2
+        echo "Create the token at https://github.com/settings/personal-access-tokens/new (Resource owner: ANR-MAMUT)." >&2
+        return 1
+      fi
+      GH_TOKEN="$_tok" gh "$@"
+    }
+  '';
 }
