@@ -25,6 +25,9 @@
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     "download-buffer-size" = 1073741824; # 1 GiB, matches modules/nixconf.nix
+    # Let Kenzae-built closures deploy to onyr@ (in wheel) without per-path signatures.
+    # onyr already has passwordless sudo (root-equivalent), so this grants no new privilege.
+    trusted-users = [ "root" "@wheel" ];
   };
   nix.gc = {
     automatic = true;
@@ -61,20 +64,19 @@
     # openssh.authorizedKeys.keys = [ "<github-actions-deploy-pubkey>" ];  # M5
   };
 
-  # --- SSH: key-only, with a root break-glass RETAINED until onyr login is proven (M3 removes it). ---
+  # --- SSH: key-only; onyr is the sole admin account. Root break-glass removed at M3
+  #     (onyr + passwordless sudo gives the same root access; the real out-of-band
+  #     emergency path is the OVH KVM console + rescue mode, not SSH). ---
   services.openssh = {
     enable = true;
     ports = [ 22 ];
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      PermitRootLogin = "prohibit-password"; # break-glass; set to "no" at M3
-      AllowUsers = [ "onyr" "deploy" "root" ]; # drop "root" at M3
+      PermitRootLogin = "no";
+      AllowUsers = [ "onyr" "deploy" ];
     };
   };
-  # break-glass: same Kenzae key for root, removed at M3
-  users.users.root.openssh.authorizedKeys.keys =
-    config.users.users.onyr.openssh.authorizedKeys.keys;
 
   services.fail2ban.enable = true;
 
