@@ -7,6 +7,18 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11"; # Stable channel for rock-solid packages
 
+    # Declarative disk partitioning for the zynzen server (used by nixos-anywhere)
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
+    # Secrets management (sops-nix) for the zynzen server
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
     # Nixos Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -54,6 +66,18 @@
         system = system;
         specialArgs = { inherit inputs pkgs-stable; };
         modules = [ ./hosts/kenzae/configuration.nix ];
+      };
+
+      # Headless OVH VPS: public web infrastructure (Caddy + static sites + analytics).
+      # Evaluated against stable nixpkgs 25.11.
+      "zynzen" = nixpkgs-stable.lib.nixosSystem {
+        system = system;
+        specialArgs = { inherit inputs pkgs-stable; };
+        modules = [
+          inputs.disko.nixosModules.disko
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/zynzen/configuration.nix
+        ];
       };
     };
 
