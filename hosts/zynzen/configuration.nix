@@ -11,9 +11,8 @@
     ./hardware-configuration.nix   # generated on the box: nixos-generate-config --no-filesystems
     ./disko.nix                    # disk layout + GRUB (legacy BIOS on /dev/sda)
     ./networking.nix               # systemd-networkd, off-link gateway (GatewayOnLink)
-    # Added in later milestones:
-    # ../../modules/server/caddy.nix       # M4
-    # ../../modules/server/websites.nix    # M4
+    ../../modules/server/caddy.nix       # M4: native Caddy ingress + new.onyr.net
+    ../../modules/server/websites.nix    # M4: /srv/websites release dirs + bootstrap
     # ../../modules/server/analytics.nix   # M7
   ];
 
