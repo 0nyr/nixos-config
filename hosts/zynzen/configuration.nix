@@ -44,7 +44,7 @@
     isNormalUser = true;
     description = "onyr";
     home = "/home/onyr";
-    extraGroups = [ "wheel" "webdeploy" ];
+    extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP/5tkNV280H/e7I/3gjhnR9/rRvuKlH4c6U1/DP0j7l rascoussier.florian@gmail.com kenzae"
     ];
@@ -52,15 +52,28 @@
   security.sudo.wheelNeedsPassword = false; # key-only box; onyr has no password by default
   users.mutableUsers = true;                # keep `passwd` as an OVH-console break-glass
 
-  # --- Restricted deploy user (CI rsync; no sudo). authorizedKeys set at M5. ---
-  users.groups.webdeploy = { };
-  users.users.deploy = {
+  # --- Restricted, site-specific deployment users (no sudo). ---
+  users.groups."deploy-onyr" = { };
+  users.users."deploy-onyr" = {
     isSystemUser = true;
-    group = "webdeploy";
-    home = "/var/lib/deploy";
+    group = "deploy-onyr";
+    home = "/var/lib/deploy-onyr";
     createHome = true;
     shell = pkgs.bashInteractive;
-    # openssh.authorizedKeys.keys = [ "<github-actions-deploy-pubkey>" ];  # M5
+    openssh.authorizedKeys.keys = [
+      "restrict ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBX+1nPnc62r7MSxGjoUN+4gJ8UL97EAXATGaIB2s8pl github-actions:onyr-website:zynzen"
+    ];
+  };
+  users.groups."deploy-mamut" = { };
+  users.users."deploy-mamut" = {
+    isSystemUser = true;
+    group = "deploy-mamut";
+    home = "/var/lib/deploy-mamut";
+    createHome = true;
+    shell = pkgs.bashInteractive;
+    openssh.authorizedKeys.keys = [
+      "restrict ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP/5tkNV280H/e7I/3gjhnR9/rRvuKlH4c6U1/DP0j7l rascoussier.florian@gmail.com kenzae"
+    ];
   };
 
   # --- SSH: key-only; onyr is the sole admin account. Root break-glass removed at M3
@@ -73,7 +86,7 @@
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
-      AllowUsers = [ "onyr" "deploy" ];
+      AllowUsers = [ "onyr" "deploy-onyr" "deploy-mamut" ];
     };
   };
 

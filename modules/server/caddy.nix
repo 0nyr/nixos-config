@@ -27,6 +27,31 @@ in
       ${secHeaders}
     '';
 
+    virtualHosts."mamut-routing.onyr.net".extraConfig = ''
+      @health path /api/healthz
+      handle @health {
+        header Content-Type application/json
+        respond `{"status":"ok"}` 200
+      }
+
+      @repoArtifacts path /benchmarks/* /LICENSE
+      handle @repoArtifacts {
+        root * /srv/websites/mamut-routing/current
+        file_server {
+          precompressed br gzip
+        }
+      }
+
+      handle {
+        root * /srv/websites/mamut-routing/current/dist
+        try_files {path} {path}/index.html
+        file_server {
+          precompressed br gzip
+        }
+      }
+      ${secHeaders}
+    '';
+
     # Added at M7, once Umami is up and analytics.onyr.net resolves here:
     # virtualHosts."analytics.onyr.net".extraConfig = ''
     #   encode gzip zstd
