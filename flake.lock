@@ -480,6 +480,23 @@
         "type": "github"
       }
     },
+    "nixos-secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784686735,
+        "narHash": "sha256-GtTFm9CJrGAxy/5UHaumukTfKhS6lqfXDKqyv/Ol3po=",
+        "ref": "main",
+        "rev": "dbced0729915cdb8c3bdea6106b6faa212a85a89",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://git@github.com/0nyr/nixos-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@github.com/0nyr/nixos-secrets.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1737632463,
@@ -588,6 +605,7 @@
         "hyprland": "hyprland",
         "minegrub-theme": "minegrub-theme",
         "nixos-hardware": "nixos-hardware",
+        "nixos-secrets": "nixos-secrets",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix"

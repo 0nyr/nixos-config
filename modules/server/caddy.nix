@@ -52,11 +52,10 @@ in
       ${secHeaders}
     '';
 
-    # Added at M7, once Umami is up and analytics.onyr.net resolves here:
-    # virtualHosts."analytics.onyr.net".extraConfig = ''
-    #   encode gzip zstd
-    #   reverse_proxy 127.0.0.1:3000
-    #   ${secHeaders}
-    # '';
+    virtualHosts."analytics.onyr.net".extraConfig = ''
+      encode gzip zstd
+      reverse_proxy 127.0.0.1:3000
+      ${secHeaders}
+    '';
   };
 }

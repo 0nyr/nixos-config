@@ -18,6 +18,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    nixos-secrets = {
+      url = "git+ssh://git@github.com/0nyr/nixos-secrets.git?ref=main";
+      flake = false;
+    };
 
     # Nixos Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

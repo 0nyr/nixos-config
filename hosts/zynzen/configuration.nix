@@ -13,7 +13,7 @@
     ./networking.nix               # systemd-networkd, off-link gateway (GatewayOnLink)
     ../../modules/server/caddy.nix       # M4: native Caddy ingress + new.onyr.net
     ../../modules/server/websites.nix    # M4: /srv/websites release dirs + bootstrap
-    # ../../modules/server/analytics.nix   # M7
+    ../../modules/server/analytics.nix   # M7: PostgreSQL + Umami; pgAdmin manual-start
   ];
 
   networking.hostName = "zynzen";
