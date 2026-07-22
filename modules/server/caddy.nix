@@ -46,7 +46,7 @@ in
         }
       }
 
-      @repoArtifact path /benchmarks/* /LICENSE
+      @repoArtifact path /benchmarks/* /dist/* /LICENSE
       handle @repoArtifact {
         root * /srv/websites/mamut-routing/current
         file_server {
