@@ -27,6 +27,18 @@ in
       ${secHeaders}
     '';
 
+    virtualHosts."onyr.net".extraConfig = ''
+      root * /srv/websites/onyr/current
+      encode gzip zstd
+      file_server
+      ${secHeaders}
+    '';
+
+    virtualHosts."www.onyr.net".extraConfig = ''
+      redir https://onyr.net{uri} permanent
+      ${secHeaders}
+    '';
+
     virtualHosts."mamut-routing.onyr.net".extraConfig = ''
       @health path /api/healthz
       handle @health {
