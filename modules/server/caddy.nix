@@ -34,21 +34,27 @@ in
         respond `{"status":"ok"}` 200
       }
 
-      @repoArtifacts path /benchmarks/* /LICENSE
-      handle @repoArtifacts {
+      @siteFile file {
+        root /srv/websites/mamut-routing/current/dist
+        try_files {path} {path}/index.html
+      }
+      handle @siteFile {
+        root * /srv/websites/mamut-routing/current/dist
+        rewrite * {file_match.relative}
+        file_server {
+          precompressed br gzip
+        }
+      }
+
+      @repoArtifact path /benchmarks/* /LICENSE
+      handle @repoArtifact {
         root * /srv/websites/mamut-routing/current
         file_server {
           precompressed br gzip
         }
       }
 
-      handle {
-        root * /srv/websites/mamut-routing/current/dist
-        try_files {path} {path}/index.html
-        file_server {
-          precompressed br gzip
-        }
-      }
+      respond 404
       ${secHeaders}
     '';
 
