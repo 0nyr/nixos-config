@@ -38,4 +38,13 @@
     # disko may also derive this from the EF02 partition's parent disk; mkDefault avoids a clash.
     devices = lib.mkDefault [ "/dev/sda" ];
   };
+
+  # Reclaim space automatically if the OVH disk is ever resized larger (future flavor upgrade).
+  # Growing a VPS disk only appends free space after the last partition (root, /dev/sda3), so the
+  # existing partitions stay byte-identical. growPartition then extends the root partition to fill
+  # the disk and autoResize grows the ext4 filesystem online. Both are no-ops when there is no free
+  # space, hence safe to leave enabled permanently.
+  # NOTE: these act on BOOT, not on `nixos-rebuild switch` — so an actual resize needs one reboot.
+  boot.growPartition = true;
+  fileSystems."/".autoResize = true;
 }
