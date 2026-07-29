@@ -20,6 +20,7 @@
     ./packages.nix
     ./sound.nix
     ./nixconf.nix
+    ./nix-ld.nix
   ];
 
   # Configure network proxy if necessary
