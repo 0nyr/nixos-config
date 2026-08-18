@@ -51,6 +51,24 @@
   boot.kernel.sysctl."kernel.hung_task_panic" = 1;
   boot.kernel.sysctl."kernel.panic" = 10; # seconds before auto-reboot after a panic
 
+  # Critical-battery handling. The upstream default action is HybridSleep,
+  # which cannot work on this machine: swap is 8 GiB against 62 GiB of RAM, so
+  # the hibernation image never fits. On 2026-08-18 the battery hit the 2%
+  # trigger, hybrid-sleep started writing the image and the machine died
+  # mid-write (next boot: "PM: Image not found (code -22)"), needing a hard
+  # power off. PowerOff is the only action that is safe until swap is resized.
+  #
+  # The thresholds are also raised because the BAT0 gauge on this unit is
+  # degraded and erratic (it fell from 92% to 8% in under 7 minutes), so 2%
+  # gives no usable warning.
+  services.upower = {
+    enable = true;
+    criticalPowerAction = "PowerOff";
+    percentageAction = 5;
+    percentageCritical = 10;
+    percentageLow = 25;
+  };
+
   ########### configuration.nix ###########
 
   # Configure network proxy if necessary
