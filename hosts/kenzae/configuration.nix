@@ -16,6 +16,7 @@
       ../../modules/keymap.nix
       ../../modules/onyr.nix
       ../../modules/packages.nix
+      ../../modules/keyring-secrets.nix
       ../../modules/sound.nix
       ../../modules/greetd.nix
       ../../modules/nixconf.nix

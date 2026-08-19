@@ -18,6 +18,7 @@
     ./keymap.nix
     ./onyr.nix
     ./packages.nix
+    ./keyring-secrets.nix
     ./sound.nix
     ./nixconf.nix
     ./nix-ld.nix
