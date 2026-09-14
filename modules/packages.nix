@@ -78,6 +78,7 @@
     simplescreenrecorder # screen recording
     kooha # screen recording
     telegram-desktop # messaging app
+    wechat # messaging app
 
     # Games
     prismlauncher # For Minecraft
