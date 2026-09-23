@@ -40,6 +40,10 @@ in
     '';
 
     virtualHosts."mamut-routing.onyr.net".extraConfig = ''
+      # Stable URLs change between publications. Revalidate browser caches
+      # against ETag/Last-Modified instead of allowing heuristic freshness.
+      header Cache-Control "no-cache"
+
       @health path /api/healthz
       handle @health {
         header Content-Type application/json
