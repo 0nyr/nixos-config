@@ -1,6 +1,18 @@
 { config, pkgs, pkgs-stable, lib, ... }:
 
-{
+let
+  kenzaeVlc = pkgs.symlinkJoin {
+    name = "vlc-kenzae";
+    paths = [ pkgs.vlc ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram "$out/bin/vlc" --set-default QT_SCALE_FACTOR 1.5
+      rm "$out/share/applications/vlc.desktop"
+      substitute ${pkgs.vlc}/share/applications/vlc.desktop "$out/share/applications/vlc.desktop" \
+        --replace-fail ${pkgs.vlc}/bin/vlc "$out/bin/vlc"
+    '';
+  };
+in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -70,7 +82,7 @@
     pdfannots2json # command line utility for Obsidian (Zotero Integration plugin)
     krita # painting and image editing
     inkscape # vector graphics editor
-    vlc # media player
+    (if config.networking.hostName == "kenzae" then kenzaeVlc else vlc) # media player
     tenacity # audio editor, fork of Audacity
     davinci-resolve # video editor - frequent updates
     blender # 3D modeling and video editing - frequent updates
@@ -79,6 +91,7 @@
     kooha # screen recording
     telegram-desktop # messaging app
     wechat # messaging app
+    audacious # audio player
 
     # Games
     prismlauncher # For Minecraft
