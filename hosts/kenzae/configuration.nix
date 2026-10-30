@@ -79,6 +79,11 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  services.mullvad-vpn = {
+    enable = true;
+    package = pkgs.mullvad-vpn;
+  };
+
   # Experimental setup
   nix.settings.experimental-features = ["nix-command" "flakes" ];
 
