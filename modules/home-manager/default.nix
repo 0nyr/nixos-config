@@ -12,6 +12,20 @@
 
   programs.home-manager.enable = true;
 
+  systemd.user.services.codex-remote-control = {
+    Unit = {
+      Description = "Codex remote control";
+      After = [ "network-online.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "/home/onyr/.local/bin/codex remote-control start";
+      ExecStop = "/home/onyr/.local/bin/codex remote-control stop";
+      RemainAfterExit = true;
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
   home = {
     username = "onyr";
     homeDirectory = "/home/onyr";
