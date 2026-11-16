@@ -38,14 +38,6 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Experimental setup
-  nix.settings.experimental-features = ["nix-command" "flakes" ];
-
-  # secret management: https://www.reddit.com/r/NixOS/comments/1auje1p/hyprland_and_secrets_management/
-  # Enable the gnome-keyring secrets vault. 
-  # Will be exposed through DBus to programs willing to store secrets.
-  services.gnome.gnome-keyring.enable = true;
-
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true; # Enable the X11 windowing system
@@ -57,19 +49,11 @@
     }; # Configure keymap in X11
   };
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true; # On 64-bit systems, whether to also install 32-bit drivers for 32-bit applications (such as Wine).
-  };
-
   # Enable CUPS to print documents.
   services.printing.enable = false;
 
   # Install firefox.
   programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

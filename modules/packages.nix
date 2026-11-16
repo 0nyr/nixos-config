@@ -46,7 +46,7 @@ in {
     ffmpeg-full # Complete, cross-platform solution to record, convert and stream audio and video
     hw-probe # for hardware and driver probing $ sudo -E hw-probe -all -upload
 
-    # Hyprland or Sway (Wayland) packages
+    # Sway (Wayland) packages
     mesa-demos # for testing nvidia offloading. $ glxgears -info
     wofi # Application launcher
     waybar # Status bar
@@ -116,11 +116,7 @@ in {
     # System utilities - stability preferred
     gparted
     networkmanagerapplet # for network applet on bar
-    pavucontrol # for advanced sound control
-    alsa-utils # for alsamixer
-    qjackctl # jack audio app to control the JACK sound server daemon
-    qpwgraph # for visualizing PipeWire graph
-    pciutils # for PCI utilities (like listing audio cards)
+    # (sound utilities and pciutils live in modules/sound.nix)
     keepassxc # password manager
     blueberry # bluetooth manager
     zoom-us # video conference

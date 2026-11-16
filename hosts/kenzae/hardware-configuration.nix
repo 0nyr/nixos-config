@@ -12,8 +12,8 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  # Tmp fix: wait for 6.18 when nvidia supports it
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Kernel pinned to a series the NVIDIA open module is known to build on.
+  # Bump deliberately, never together with a driver or power-management change.
   boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   fileSystems."/" =

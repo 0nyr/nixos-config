@@ -12,7 +12,6 @@
     # GUI, desktop, and window manager configuration.
     ../../modules/gui/gnome.nix
     ../../modules/gui/sway.nix
-    # ../../modules/gui/hyprland.nix
     ../../modules/gui/i3.nix
   ];
 
@@ -21,7 +20,7 @@
   home-manager.users.onyr = import ./home.nix;
 
   # display manager
-  services.displayManager.sddm.enable = true; # supported well by Hyprland
+  services.displayManager.sddm.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true; # Enable the gnome-keyring secrets vault.
 
   # SSH

@@ -84,14 +84,7 @@
     package = pkgs.mullvad-vpn;
   };
 
-  # Experimental setup
-  nix.settings.experimental-features = ["nix-command" "flakes" ];
-
-  # secret management: https://www.reddit.com/r/NixOS/comments/1auje1p/hyprland_and_secrets_management/
-  # Enable the gnome-keyring secrets vault.
-  # Will be exposed through DBus to programs willing to store secrets.
-  services.gnome.gnome-keyring.enable = true;
-
+  # The gnome-keyring secrets vault itself is enabled in modules/gui/sway.nix.
   # Unlock the gnome-keyring "login" keyring automatically at login, using the
   # password typed into tuigreet (greetd's PAM service). This is what lets the
   # SSH key passphrase (and the gh token) live in the keyring and be available
@@ -104,9 +97,6 @@
 
   # Install firefox.
   programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
