@@ -1,5 +1,5 @@
 # Headless OVH VPS "zynzen" — public web infrastructure (Caddy + static sites + analytics).
-# Evaluated against nixpkgs-stable 25.11 via the flake output "zynzen".
+# Evaluated against nixpkgs-stable 26.05 via the flake output "zynzen".
 #
 # Self-contained on purpose: it does NOT import modules/onyr.nix or modules/nixconf.nix,
 # because those carry desktop assumptions (groups networkmanager/docker/vboxusers/storage

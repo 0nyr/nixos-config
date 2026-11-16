@@ -5,7 +5,7 @@
   inputs = {
     # Official NixOS package source
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11"; # Stable channel for rock-solid packages
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05"; # Stable channel for rock-solid packages
 
     # Declarative disk partitioning for the zynzen server (used by nixos-anywhere)
     disko = {
@@ -60,7 +60,7 @@
       };
 
       # Headless OVH VPS: public web infrastructure (Caddy + static sites + analytics).
-      # Evaluated against stable nixpkgs 25.11.
+      # Evaluated against stable nixpkgs 26.05.
       "zynzen" = nixpkgs-stable.lib.nixosSystem {
         system = system;
         specialArgs = { inherit inputs pkgs-stable; };

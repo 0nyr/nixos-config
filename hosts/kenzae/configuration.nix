@@ -81,7 +81,7 @@
 
   services.mullvad-vpn = {
     enable = true;
-    package = pkgs.mullvad-vpn;
+    gui.enable = true; # the daemon and the GUI are now separate packages
   };
 
   # The gnome-keyring secrets vault itself is enabled in modules/gui/sway.nix.

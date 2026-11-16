@@ -76,7 +76,6 @@ in {
     vscode.fhs # IDE - frequent updates
     eclipses.eclipse-java # IDE
     thunderbird # email client
-    zotero # reference manager for research
     discord # chat
     libreoffice # office suite
     obsidian # note taking app - frequent updates
@@ -118,7 +117,10 @@ in {
     networkmanagerapplet # for network applet on bar
     # (sound utilities and pciutils live in modules/sound.nix)
     keepassxc # password manager
-    blueberry # bluetooth manager
+    # Zotero from stable: on unstable (2026-11-13) it still wraps Firefox ESR 140,
+    # which is end-of-life and marked insecure, so it refuses to evaluate.
+    zotero # reference manager for research
+    blueman # bluetooth manager (blueberry was removed from nixpkgs as unmaintained)
     zoom-us # video conference
     # ventoy-full # makebootable usb - temporarily disabled due to being insecure
     nwg-look # for theming GTK apps
