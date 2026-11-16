@@ -5,7 +5,6 @@
   environment.systemPackages = with pkgs-stable; [
     pavucontrol # for advanced sound control
     alsa-utils # for alsamixer
-    qjackctl # jack audio app to control the JACK sound server daemon
     qpwgraph # for visualizing PipeWire graph, equivalent to what qjackctl is to JACK
     pciutils # for PCI utilities (like listing audio cards)
   ];
@@ -19,8 +18,8 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    jack.enable = true;
+    # JACK emulation stays off: the option is deprecated upstream because it
+    # injects a global LD_LIBRARY_PATH. Use the `pw-jack` wrapper if ever needed.
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
