@@ -34,11 +34,10 @@ let
 in
 
 {
-  # Ensure that the greetd service has access to sway - use stable for login components
-  environment.systemPackages = with pkgs-stable; [
-    tuigreet
-    sway
-  ];
+  # The greeter comes from stable. Sway itself is provided by `programs.sway`
+  # (modules/gui/sway.nix), so that one single sway version is installed and it
+  # matches the wlroots portal.
+  environment.systemPackages = [ pkgs-stable.tuigreet ];
 
   # NB: check greetd logs: journalctl -xeu greetd.service
   services.greetd = {

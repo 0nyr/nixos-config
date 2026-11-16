@@ -9,6 +9,7 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./graphics.nix
       # General configuration files.
       ../../modules/time.nix
       ../../modules/nvidia.nix

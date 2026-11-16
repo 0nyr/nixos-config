@@ -62,6 +62,9 @@ in {
   xdg.portal = {
     enable = true;
     wlr.enable = true; # provides xdg-desktop-portal-wlr (don't add it to extraPortals too!)
+    # Cap screen capture at 30 frames per second. Uncapped, a shared screen is
+    # captured at the output's refresh rate (240 Hz on Kenzae's panel).
+    wlr.settings.screencast.max_fps = 30;
     config.common.default = "*";
     extraPortals = with pkgs-stable; [
       #xdg-desktop-portal-gtk # already present due to Gnome being installed.
