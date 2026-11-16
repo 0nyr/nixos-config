@@ -8,6 +8,15 @@ let
       cmakeFlags = (old.cmakeFlags or []) ++ [ "-DUSE_WAYLAND_GRIM=ON" ];
     });
   });
+
+  # Menu shown when an application asks to share the screen. Without it, the
+  # portal falls back to `slurp`, which silently waits for a click on the
+  # screen to share.
+  screenShareChooser = pkgs.writeShellApplication {
+    name = "screen-share-chooser";
+    runtimeInputs = with pkgs; [ sway jq lswt wofi wayland-utils gnugrep ];
+    text = builtins.readFile ./screen-share-chooser.sh;
+  };
 in {
   environment.systemPackages = with pkgsWithWaylandFlameshot; [
     flameshot
@@ -34,6 +43,12 @@ in {
       export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
     fi
   '';
+
+  # Run Firefox and Thunderbird as native Wayland clients whoever launches
+  # them. X11 applications such as Discord export GDK_BACKEND=x11 to their
+  # children, so a link clicked there used to start Firefox under XWayland,
+  # where screen sharing shows a black image.
+  environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
 
   # enable polkit for permission management
   security.polkit.enable = true;
@@ -64,7 +79,11 @@ in {
     wlr.enable = true; # provides xdg-desktop-portal-wlr (don't add it to extraPortals too!)
     # Cap screen capture at 30 frames per second. Uncapped, a shared screen is
     # captured at the output's refresh rate (240 Hz on Kenzae's panel).
-    wlr.settings.screencast.max_fps = 30;
+    wlr.settings.screencast = {
+      max_fps = 30;
+      chooser_type = "simple";
+      chooser_cmd = "${screenShareChooser}/bin/screen-share-chooser";
+    };
     config.common.default = "*";
     extraPortals = with pkgs-stable; [
       #xdg-desktop-portal-gtk # already present due to Gnome being installed.
