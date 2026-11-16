@@ -1,13 +1,6 @@
 { config, pkgs, pkgs-stable, lib, ... }:
 
 let
-  # NOTE: Need to build flameshot with Wayland support.
-  # Use stable packages for rock-solid desktop utilities
-  pkgsWithWaylandFlameshot = pkgs-stable.extend (final: prev: {
-    flameshot = prev.flameshot.overrideAttrs (old: {
-      cmakeFlags = (old.cmakeFlags or []) ++ [ "-DUSE_WAYLAND_GRIM=ON" ];
-    });
-  });
 
   # Menu shown when an application asks to share the screen. Without it, the
   # portal falls back to `slurp`, which silently waits for a click on the
@@ -18,7 +11,12 @@ let
     text = builtins.readFile ./screen-share-chooser.sh;
   };
 in {
-  environment.systemPackages = with pkgsWithWaylandFlameshot; [
+  # Stable packages for rock-solid desktop utilities.
+  environment.systemPackages = with pkgs-stable; [
+    # Flameshot 13 captures through grim on wlroots compositors when
+    # `useGrimAdapter=true` is set in ~/.config/flameshot/flameshot.ini
+    # (tracked in the dotfiles repository). The former USE_WAYLAND_GRIM
+    # compile flag no longer exists.
     flameshot
     grim # screenshot functionality
     slurp # screenshot functionality

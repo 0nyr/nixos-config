@@ -4,58 +4,32 @@
 #   01:00.0  NVIDIA RTX 3070 Ti (nvidia) HDMI-A-1, DP-3
 #
 # The desktop renders on the Intel GPU. The generic NVIDIA driver setup lives
-# in modules/nvidia.nix. This file adds the Intel video acceleration and the
-# opt-in boot entries that let the NVIDIA GPU power down when idle.
+# in modules/nvidia.nix. With driver 595.112 and sway 1.12 the NVIDIA GPU
+# already powers down when idle (runtime D3, checked 2026-11-16 through
+# /sys/bus/pci/devices/0000:01:00.0/power/runtime_status), so no PRIME or
+# power-management option is set here.
 { config, pkgs, lib, ... }:
 
 let
-  # PRIME render offload with runtime power management (RTD3). The NVIDIA GPU
-  # powers down when idle and only runs the programs started with
-  # `nvidia-offload <cmd>`.
-  nvidiaOffload = {
-    hardware.nvidia = {
-      powerManagement.enable = lib.mkForce true; # required by finegrained
-      powerManagement.finegrained = lib.mkForce true;
-      prime = {
-        offload.enable = true;
-        offload.enableOffloadCmd = true; # provides `nvidia-offload`
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
-    };
-  };
+  # Run one program on the NVIDIA GPU: `nvidia-offload <cmd>`. Same variables
+  # as the wrapper of `hardware.nvidia.prime.offload.enableOffloadCmd`, without
+  # enabling the PRIME module.
+  nvidiaOffload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec "$@"
+  '';
 in
 {
   # Hardware video decode and encode on the Intel GPU (VA-API). Without it,
   # browsers encode video calls and screen sharing on the CPU.
   hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
-  environment.systemPackages = [ pkgs.libva-utils ]; # provides `vainfo`
 
-  # Stable name for the Intel DRM card. card0 and card1 can swap between
-  # boots, and the by-path name contains ":", the separator of WLR_DRM_DEVICES.
-  services.udev.extraRules = ''
-    SUBSYSTEM=="drm", ENV{DEVTYPE}=="drm_minor", KERNEL=="card[0-9]*", KERNELS=="0000:00:02.0", SYMLINK+="dri/igpu"
-  '';
-
-  # Experimental boot entries, picked by hand in the systemd-boot menu. The
-  # default entry keeps the NVIDIA GPU always on, as before.
-  specialisation = {
-    # Sway still opens both GPUs, so HDMI-A-1 and DP-3 stay available. An open
-    # DRM card may prevent the NVIDIA GPU from reaching runtime suspend.
-    nvidia-offload.configuration = lib.mkMerge [
-      nvidiaOffload
-      { system.nixos.tags = [ "nvidia-offload" ]; }
-    ];
-
-    # Same, and sway only opens the Intel GPU. The NVIDIA GPU is then free to
-    # suspend, but the outputs wired to it (HDMI-A-1, DP-3) are unavailable.
-    nvidia-offload-igpu-only.configuration = lib.mkMerge [
-      nvidiaOffload
-      {
-        system.nixos.tags = [ "nvidia-offload-igpu-only" ];
-        environment.sessionVariables.WLR_DRM_DEVICES = "/dev/dri/igpu";
-      }
-    ];
-  };
+  environment.systemPackages = [
+    pkgs.libva-utils # provides `vainfo`
+    nvidiaOffload
+  ];
 }

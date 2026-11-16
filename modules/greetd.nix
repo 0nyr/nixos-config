@@ -47,9 +47,11 @@ in
       # newlines into the generated TOML as a multi-line literal string,
       # which greetd's TOML parser fails to load ("expected equals sign on
       # line, but found none"), even though the TOML itself is spec-valid.
+      # The UID bounds keep system accounts and the nixbld users out of the
+      # user menu. tuigreet 0.11 lists them when the bounds are not given.
       # The actual session setup (D-Bus bus, sway exec) lives in the
       # `swaySession` wrapper above; see that comment for the full rationale.
-      default_session.command = ''${pkgs-stable.tuigreet}/bin/tuigreet --time --asterisks --user-menu --cmd "${swaySession}"'';
+      default_session.command = ''${pkgs-stable.tuigreet}/bin/tuigreet --time --asterisks --user-menu --user-menu-min-uid 1000 --user-menu-max-uid 29999 --cmd "${swaySession}"'';
     };
   };
 }
