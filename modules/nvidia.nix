@@ -18,12 +18,5 @@
     enable32Bit = true; # On 64-bit systems, whether to also install 32-bit drivers for 32-bit applications (such as Wine).
   };
 
-  # LLMs and AI models (Need Nvidia)
-  # services.ollama = {
-  #   enable = true;
-  #   acceleration = "cuda";
-  # }; # Build failed...
-  # services.open-webui = {
-  #   enable = true;
-  # }; # worked but now fails
+  # Local LLMs: see hosts/kenzae/local-llm.nix (llama.cpp behind llama-swap).
 }
