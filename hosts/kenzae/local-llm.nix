@@ -9,14 +9,19 @@ let
   modelsDir = "/var/lib/llama-models";
   # Flags shared by every model. Thinking stays on by default (template
   # default of Qwen3.6, forced on for Qwen3.5-9B below). Sampling is the
-  # thinking-mode "precise coding" preset of the Unsloth guides for Qwen3.5
-  # and Qwen3.6 (general tasks would use temperature 1.0).
+  # thinking-mode "general tasks" preset of the Unsloth guides for Qwen3.5 and
+  # Qwen3.6, with presence penalty 1.5 for both. The "precise coding" preset
+  # (temperature 0.6) made Qwen3.6 loop in its thinking on a simple NixOS
+  # question (2026-11-17). The thinking budget bounds the time of a turn: past
+  # 4096 tokens, llama-server injects the message and closes the thinking.
   common = lib.concatStringsSep " " [
     "--port \${PORT}"
     "-fa on -ctk q8_0 -ctv q8_0" # flash attention, 8-bit KV cache
     "-np 1" # one slot, so a request gets the whole context
     "--jinja"
-    "--temp 0.6 --top-p 0.95 --top-k 20 --min-p 0"
+    "--temp 1.0 --top-p 0.95 --top-k 20 --min-p 0 --presence-penalty 1.5"
+    "--reasoning-budget 4096"
+    "--reasoning-budget-message 'I have thought long enough, I now give my answer.'"
   ];
   # Every model gets a "<name>:nothink" alias in the same process (no reload):
   # thinking off, with the non-thinking sampling of the same guides. It is
