@@ -4,8 +4,7 @@
 # otherwise ACME HTTP-01 issuance fails and can hit Let's Encrypt rate limits.
 { config, pkgs, lib, ... }:
 let
-  # Conservative, non-committal headers. No HSTS yet on the preview subdomain (HSTS is a
-  # long-lived browser commitment); add it at the apex cutover (M8).
+  # Conservative, non-committal headers. No HSTS yet (HSTS is a long-lived browser commitment).
   secHeaders = ''
     header {
       X-Content-Type-Options "nosniff"
@@ -19,13 +18,6 @@ in
   services.caddy = {
     enable = true;
     email = "onyr.maintainer@gmail.com"; # ACME contact for cert-expiry notices
-
-    virtualHosts."new.onyr.net".extraConfig = ''
-      root * /srv/websites/onyr/current
-      encode gzip zstd
-      file_server
-      ${secHeaders}
-    '';
 
     virtualHosts."onyr.net".extraConfig = ''
       root * /srv/websites/onyr/current
