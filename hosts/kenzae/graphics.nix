@@ -32,4 +32,21 @@ in
     pkgs.libva-utils # provides `vainfo`
     nvidiaOffload
   ];
+
+  # Hide the HDMI/DP audio device of the NVIDIA card from PipeWire. When the
+  # USB-C headphone adapter is unplugged, WirePlumber picks this device as
+  # the default output, and any stream played into it keeps the audio
+  # function 01:00.1 awake, which keeps the whole NVIDIA GPU awake (found on
+  # 2026-11-17). A rule that only sets the profile to "off" is not enough,
+  # because a profile stored in ~/.local/state/wireplumber wins over it.
+  # Consequence: no sound through a screen plugged on HDMI-A-1 or DP-3.
+  # Remove this block and rebuild to get it back.
+  services.pipewire.wireplumber.extraConfig."51-kenzae-no-nvidia-hdmi-audio" = {
+    "monitor.alsa.rules" = [
+      {
+        matches = [ { "device.name" = "alsa_card.pci-0000_01_00.1"; } ];
+        actions.update-props."device.disabled" = true;
+      }
+    ];
+  };
 }
