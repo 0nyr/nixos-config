@@ -71,7 +71,7 @@ in
       captureBuffer = 50; # MB of compressed captures
       models = {
         "qwen3.5-9b" = {
-          cmd = "${server} -m ${modelsDir}/Qwen3.5-9B-Q4_K_M.gguf -ngl 99 -c 32768 ${common}";
+          cmd = "${server} -m ${modelsDir}/Qwen3.5-9B-Q4_K_M.gguf -ngl 99 -c 65536 ${common}";
           filters.setParamsByID = thinkingParams;
         };
         # MoE, 3B active: attention on the GPU, the experts of the first
