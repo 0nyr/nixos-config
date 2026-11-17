@@ -46,6 +46,14 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Forbid the deep NVMe power states (APST). On the night of 2026-11-16 the
+  # 2 TB Samsung 990 PRO, which holds /, /home and /boot, most likely dropped
+  # off the bus while the laptop was idle on AC: the journal stopped with no
+  # error and every later write failed with I/O errors. SMART showed a healthy
+  # disk, which points to a failed wake-up from a deep state (PS3/PS4). Costs
+  # about 1 W more when idle. The default is 100000.
+  boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
+
   # Panic (and auto-reboot) on kernel hard lockups and hung tasks instead of
   # freezing silently with no trace, as happened on 2026-07-08 (no OOM, no
   # lockup detection, journal just stopped).
