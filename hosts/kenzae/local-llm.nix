@@ -75,10 +75,14 @@ in
           filters.setParamsByID = thinkingParams;
         };
         # MoE, 3B active: attention on the GPU, the experts of the first
-        # --n-cpu-moe layers in RAM. 30 is a starting point, to be lowered
-        # until loading fails, then raised by 1 or 2.
+        # --n-cpu-moe layers in RAM. Values measured on 2026-11-17 with a
+        # 30k-token prompt (7843 MiB usable): 29 with -ub 2048 peaks at
+        # 7359 MiB, 28 leaves 128 MiB, 27 and lower do not fit. Decode speed
+        # is the same from 27 to 30. -ub 2048 makes prompt processing 2.6
+        # times faster than -ub 512. -C 0x555 pins the 6 threads to one
+        # logical CPU per P-core (+20 % decode against unpinned threads).
         "qwen3.6-35b-a3b" = {
-          cmd = "${server} -m ${modelsDir}/Qwen3.6-35B-A3B-UD-IQ4_XS.gguf -ngl 99 --n-cpu-moe 30 -c 32768 -t 6 -ub 512 ${common}";
+          cmd = "${server} -m ${modelsDir}/Qwen3.6-35B-A3B-UD-IQ4_XS.gguf -ngl 99 --n-cpu-moe 29 -c 32768 -t 6 -C 0x555 --cpu-strict 1 -b 2048 -ub 2048 ${common}";
           filters.setParamsByID = thinkingParams;
         };
       };
