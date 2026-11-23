@@ -2,7 +2,7 @@
 # /srv/websites/<site>/current and reverse-proxies analytics later.
 # IMPORTANT: add a virtualHost only once its DNS A record already resolves to this box,
 # otherwise ACME HTTP-01 issuance fails and can hit Let's Encrypt rate limits.
-{ config, pkgs, lib, ... }:
+{ inputs, pkgs, ... }:
 let
   # Conservative, non-committal headers. No HSTS yet (HSTS is a long-lived browser commitment).
   secHeaders = ''
@@ -17,6 +17,8 @@ in
 {
   services.caddy = {
     enable = true;
+    # The pinned unstable input carries the Caddy security release ahead of stable.
+    package = inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.caddy;
     email = "onyr.maintainer@gmail.com"; # ACME contact for cert-expiry notices
 
     virtualHosts."onyr.net".extraConfig = ''

@@ -72,7 +72,7 @@ in
 
   virtualisation.oci-containers.containers = {
     "${postgresContainer}" = {
-      image = "docker.io/library/postgres@sha256:8189a1f6e40904781fc9e2612687877791d21679866db58b1de996b31fc312e4";
+      image = "docker.io/library/postgres@sha256:da0f70de7bfa995f90cd02280c790091aff9a1c8e32ad74fd8376260f7628a63"; # 17.12-alpine3.23
       environmentFiles = [ config.sops.templates."postgres.env".path ];
       volumes = [ "zynzen-postgres-data:/var/lib/postgresql/data" ];
       extraOptions = [
@@ -85,7 +85,7 @@ in
     };
 
     zynzen-umami = {
-      image = "ghcr.io/umami-software/umami@sha256:8edfe4beaef13f9d1300619fa264ef250a3688df9cc54d24ca830ca31cb475ec";
+      image = "ghcr.io/umami-software/umami@sha256:b64f40400d77bcadd39cf5c62a1e368c99524ca442024f96e1133355a19a5dbc"; # 3.5.0
       environmentFiles = [ config.sops.templates."umami.env".path ];
       ports = [ "127.0.0.1:3000:3000" ];
       dependsOn = [ postgresContainer ];
