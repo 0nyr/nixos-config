@@ -92,6 +92,11 @@
 
   services.fail2ban.enable = true;
 
+  # Cap the persistent journal. The default (10 % of the file system) had grown to 1.9 GB.
+  services.journald.extraConfig = ''
+    SystemMaxUse=500M
+  '';
+
   # --- Firewall: only 22/80/443 public (covers IPv4 and IPv6) ---
   networking.firewall = {
     enable = true;
