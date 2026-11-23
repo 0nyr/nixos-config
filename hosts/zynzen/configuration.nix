@@ -92,12 +92,6 @@
 
   services.fail2ban.enable = true;
 
-  # TEMPORARY (upgrade 25.11 -> 26.05, 2026-11-17). 26.05 defaults to dbus-broker, and a
-  # change of D-Bus implementation cannot be activated on a running system. Keeping the
-  # classic daemon allows `nixos-rebuild test` and live checks before the first reboot.
-  # Remove this line once 26.05 is validated, then install with `nixos-rebuild boot` and reboot.
-  services.dbus.implementation = "dbus";
-
   # --- Firewall: only 22/80/443 public (covers IPv4 and IPv6) ---
   networking.firewall = {
     enable = true;
