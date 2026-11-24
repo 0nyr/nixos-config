@@ -62,19 +62,25 @@
   boot.kernel.sysctl."kernel.hung_task_panic" = 1;
   boot.kernel.sysctl."kernel.panic" = 10; # seconds before auto-reboot after a panic
 
-  # Critical-battery handling. The upstream default action is HybridSleep,
-  # which cannot work on this machine: swap is 8 GiB against 62 GiB of RAM, so
-  # the hibernation image never fits. On 2026-08-18 the battery hit the 2%
-  # trigger, hybrid-sleep started writing the image and the machine died
-  # mid-write (next boot: "PM: Image not found (code -22)"), needing a hard
-  # power off. PowerOff is the only action that is safe until swap is resized.
+  # Critical-battery handling: hibernate. The upstream default action is
+  # HybridSleep, which failed on this machine while swap was 8 GiB against
+  # 62 GiB of RAM: the hibernation image never fitted. On 2026-08-18 the
+  # battery hit the 2% trigger, hybrid-sleep started writing the image and the
+  # machine died mid-write (next boot: "PM: Image not found (code -22)"),
+  # needing a hard power off. PowerOff replaced it until 2026-11-24.
+  #
+  # Since 2026-11-24 swap is a 100 GiB partition on the 990 PRO and
+  # boot.resumeDevice points at it (see hardware-configuration.nix). A manual
+  # "systemctl hibernate" passed that day on AC, with a 12.9 GiB image written
+  # and restored. Plain Hibernate is preferred to HybridSleep: it powers off
+  # once the image is written, so nothing drains the battery further.
   #
   # The thresholds are also raised because the BAT0 gauge on this unit is
   # degraded and erratic (it fell from 92% to 8% in under 7 minutes), so 2%
   # gives no usable warning.
   services.upower = {
     enable = true;
-    criticalPowerAction = "PowerOff";
+    criticalPowerAction = "Hibernate";
     percentageAction = 5;
     percentageCritical = 10;
     percentageLow = 25;

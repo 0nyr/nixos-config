@@ -33,8 +33,12 @@
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/960e09e5-cadd-49cc-9d2b-930c3e8daf29"; }
+    [ { device = "/dev/disk/by-uuid/9d8787b9-ed76-4198-87f4-d2c93497dde2"; }
     ];
+
+  # Hibernation resumes from the swap partition above (100 GiB against 62 GiB
+  # of RAM). Keep both UUIDs identical.
+  boot.resumeDevice = "/dev/disk/by-uuid/9d8787b9-ed76-4198-87f4-d2c93497dde2";
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
